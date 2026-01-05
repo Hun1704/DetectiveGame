@@ -1,70 +1,96 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using UnityEngine.UI; // Dùng cho Image
+using UnityEngine.UI; 
 using TMPro;
 
-// Tạo một lớp nhỏ để lưu trữ cặp thông tin (Tên + Icon)
+// --- 1. ĐỊNH NGHĨA DỮ LIỆU ---
+
+// Class lưu thông tin vật phẩm (Giữ nguyên)
 [System.Serializable]
 public class CollectedItemData
 {
     public string name;
     public Sprite icon;
     public string description;
-
-
     public CollectedItemData(string n, Sprite i, string d) { name = n; icon = i; description = d; }
 }
 
+// [MỚI] Class lưu thông tin Nhân Vật (để khai báo trong Inspector)
+[System.Serializable]
+public class CharacterData
+{
+    public string id;
+    public string tenHienThi;
+    public Sprite avatar;
+
+    [Tooltip("Nhân vật này có hiển thị ảnh đại diện không?")]
+    public bool coAnhDaiDien = true;
+}
+
+
 public class InventoryManager : MonoBehaviour
 {
-    public Vector3 offset = new Vector3(15, 15, 0); // Khoảng cách lệch so với chuột
+    public static InventoryManager Instance; 
 
-    void Update()
-    {
-        transform.position = Input.mousePosition + offset;
-    }
+    public Vector3 offset = new Vector3(15, 15, 0); 
 
-    public static InventoryManager Instance; // Singleton
+    // --- 2. KHAI BÁO BIẾN ---
 
-    [Header("Thông tin nhân vật")]
+    [Header("=== DỮ LIỆU NHÂN VẬT (QUAN TRỌNG) ===")]
+    // Bạn sẽ bấm dấu + ở đây để thêm Quan, Bà Hàng Xóm, v.v...
+    public List<CharacterData> danhSachNhanVat; 
+
+    [Header("Thông tin nhân vật chính (Player)")]
     public GameObject nhanVatPlayer;
     public Sprite anhThamTuMacDinh;
 
-    [Header("Cài đặt UI")]
-    public GameObject inventoryPanel; // Kéo cái Panel to vào đây
-    public Transform contentArea;     // Kéo cái ContentArea (chứa Layout Group) vào đây
+    [Header("Cài đặt UI Inventory")]
+    public GameObject inventoryPanel; 
+    public Transform contentArea;      
     public GameObject itemIconPrefab;
 
     [Header("Cài đặt Tooltip")]
-    public GameObject tooltipPanel;   // Kéo cái Panel Tooltip vào
-    public TMP_Text tooltipText;      // Kéo cái Text trong Tooltip vào
-    public Vector2 tooltipOffset = new Vector2(10, 10);
+    public GameObject tooltipPanel;   
+    public TMP_Text tooltipText;      
 
-    [Header("UI Hội thoại - NHÂN VẬT CHÍNH")]
-    public GameObject playerDialogueGroup; // Kéo DialogueGroup_Player vào đây
-    public TMP_Text playerNameText;        // Kéo NameText của Player
-    public TMP_Text playerDialogueText;    // Kéo DialogueText của Player
-    public Image playerPortraitImage;      // Kéo Portrait của Player
+    [Header("UI Hội thoại - PLAYER (Riêng biệt)")]
+    public GameObject playerDialogueGroup; 
+    public TMP_Text playerNameText;        
+    public TMP_Text playerDialogueText;    
+    public Image playerPortraitImage;      
 
-    [Header("UI Hội thoại - NPC (MỚI)")]
-    public GameObject npcDialogueGroup;    // Kéo DialogueGroup_NPC vào đây
-    public TMP_Text npcNameText;           // Kéo NameText của NPC
-    public TMP_Text npcDialogueText;       // Kéo DialogueText của NPC
-    public Image npcPortraitImage;         // Kéo Portrait của NPC
+    [Header("UI Hội thoại - CÁC NHÂN VẬT KHÁC (Dùng chung)")]
+    // Cái này ngày xưa là của Quan, giờ ta dùng chung cho tất cả NPC
+    public GameObject npcDialogueGroup;    
+    public TMP_Text npcNameText;           
+    public TMP_Text npcDialogueText;       
+    public Image npcPortraitImage;         
 
-    [Header("Hiệu ứng chữ chạy")]
-    [Range(0.01f, 0.1f)]
-    public float tocDoGo = 0.05f; // Thời gian đợi giữa các chữ (càng nhỏ càng nhanh)
-    private Coroutine tienTrinhGoChu; // Biến để lưu tiến trình đang chạy
-    private bool dangGoChu = false;   // Kiểm tra xem có đang chạy chữ không
-    private string noiDungDayDu;      // Lưu lại nội dung gốc để hiển thị khi skip
-    private bool dangLaNPCNoi = false;
-
+    [Header("Cài đặt chữ chạy")]
+    [Range(0.01f, 0.1f)] public float tocDoGo = 0.05f; 
+    
+    // Biến nội bộ
+    private Coroutine tienTrinhGoChu; 
+    private bool dangGoChu = false;   
+    private string noiDungDayDu;      
+    private bool dangLaNPCNoi = false; 
     public bool dangHoiThoai = false;
 
-    // Danh sách lưu trữ kiểu dữ liệu mới (CollectedItemData)
     private List<CollectedItemData> collectedItems = new List<CollectedItemData>();
+
+    [System.Serializable]
+    public class VatChungData
+    {
+        public int id;
+        public string ten;
+        public Sprite icon;
+        [TextArea] public string moTa;
+    }
+
+    [Header("=== DATABASE VẬT CHỨNG (SAVE / LOAD) ===")]
+    public List<VatChungData> databaseVatChung;
+
 
     void Awake()
     {
@@ -75,84 +101,117 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         if (inventoryPanel != null) inventoryPanel.SetActive(false);
-
         HideTooltip();
-
         AnHetBangHoiThoai();
         dangHoiThoai = false;
+
+        // 🔥 RESTORE VẬT CHỨNG TỪ SAVE
+        if (SaveGameManager.Instance != null &&
+            SaveGameManager.Instance.pendingVatChungRestore != null)
+        {
+            foreach (int id in SaveGameManager.Instance.pendingVatChungRestore)
+            {
+                AddVatChungByID(id);
+            }
+
+            Debug.Log("Inventory: Đã restore toàn bộ vật chứng");
+
+            // ❗ KHÔNG XÓA pending ở đây
+            // Để MindPalace còn đọc lại
+        }
     }
 
-    // Hàm gọi khi nhặt được đồ mới
+
+    void Update()
+    {
+        if(inventoryPanel.activeSelf) transform.position = Input.mousePosition + offset;
+    }
+
+    // --- 3. CÁC HÀM INVENTORY (Giữ nguyên) ---
     public void AddItem(string itemName, Sprite itemIcon, string itemDesc)
     {
-        // Tạo data mới và thêm vào list
         collectedItems.Add(new CollectedItemData(itemName, itemIcon, itemDesc));
-        Debug.Log("Đã thêm: " + itemName);
     }
 
-    // Hàm gọi khi bấm vào icon Cuốn sách
+    public void AddVatChungByID(int id)
+    {
+        VatChungData data = databaseVatChung.Find(x => x.id == id);
+        if (data == null)
+        {
+            Debug.LogWarning("Không tìm thấy vật chứng ID = " + id);
+            return;
+        }
+
+        // Tránh add trùng
+        if (collectedItems.Exists(x => x.name == data.ten))
+            return;
+
+        collectedItems.Add(new CollectedItemData(
+            data.ten,
+            data.icon,
+            data.moTa
+        ));
+
+        Debug.Log("Inventory: Restore vật chứng ID " + id);
+    }
+
+    public void RestoreInventoryFromSave(List<int> ids)
+    {
+        collectedItems.Clear();
+
+        foreach (int id in ids)
+        {
+            AddVatChungByID(id);
+        }
+
+        Debug.Log("Inventory: Đã restore vật chứng từ save");
+    }
+
+
+
+
+
     public void ToggleInventory()
     {
         bool isActive = !inventoryPanel.activeSelf;
         inventoryPanel.SetActive(isActive);
 
-        if (isActive)
-        {
-            RefreshUI();
-            dangHoiThoai = true; // Mở túi -> Dừng di chuyển
-        }
-        else
-        {
+        if (isActive) { RefreshUI(); dangHoiThoai = true; }
+        else 
+        { 
             HideTooltip();
-            // Chỉ cho phép đi lại nếu KHÔNG có bảng hội thoại nào đang mở
-            if (!playerDialogueGroup.activeSelf && !npcDialogueGroup.activeSelf)
-            {
-                dangHoiThoai = false;
-            }
+            if (!playerDialogueGroup.activeSelf && !npcDialogueGroup.activeSelf) dangHoiThoai = false;
         }
     }
 
-    // Vẽ lại danh sách vật chứng lên màn hình
     void RefreshUI()
     {
-        foreach (Transform child in contentArea)
-        {
-            Destroy(child.gameObject);
-        }
-
-        // Duyệt qua danh sách dữ liệu mới
+        foreach (Transform child in contentArea) Destroy(child.gameObject);
         foreach (CollectedItemData data in collectedItems)
         {
-            // Tạo icon
             GameObject newSlot = Instantiate(itemIconPrefab, contentArea);
-
-            // 1. Gán hình ảnh cho icon
             newSlot.GetComponent<Image>().sprite = data.icon;
-
             Button btn = newSlot.GetComponent<Button>();
             if (btn == null) btn = newSlot.AddComponent<Button>();
-            btn.onClick.AddListener(() => ShowDialogue(data.description));
+            
+            // Khi bấm vào item -> Player suy nghĩ
+            btn.onClick.AddListener(() => ShowDialogue(data.description)); 
 
-            // 2. Gán tên vào script hover để nó biết nó tên gì
             InventorySlotHover hoverScript = newSlot.GetComponent<InventorySlotHover>();
-            if (hoverScript != null)
-            {
-                hoverScript.itemNameData = data.name;
-            }
+            if (hoverScript != null) hoverScript.itemNameData = data.name;
         }
     }
 
+    // --- 4. HỆ THỐNG HỘI THOẠI ĐA NHÂN VẬT (NÂNG CẤP) ---
+
+    // Hàm 1: Dành cho Player (Giữ nguyên tên ShowDialogue để code cũ không bị lỗi)
     public void ShowDialogue(string content, Sprite emotion = null, float speedOverride = -1f)
     {
-        // 1. Chỉ tắt UI cũ, KHÔNG ĐƯỢC set dangHoiThoai = false ở đây
-        AnHetBangHoiThoai();
-
-        // 2. Bật cờ dừng di chuyển
+        AnHetBangHoiThoai(); // Tắt bảng NPC đi
         dangHoiThoai = true;
-
-        // 3. Hiện UI mới
         dangLaNPCNoi = false;
-        playerDialogueGroup.SetActive(true);
+
+        playerDialogueGroup.SetActive(true); // Bật bảng Player
 
         if (nhanVatPlayer != null) playerNameText.text = nhanVatPlayer.name;
         if (playerPortraitImage != null)
@@ -164,47 +223,77 @@ public class InventoryManager : MonoBehaviour
         BatDauChayChu(playerDialogueText, content, speedOverride);
     }
 
-    // --- XỬ LÝ HỘI THOẠI NPC ---
-    public void ShowDialogueNPC(GameObject npcObj, string content, Sprite portraitNPC = null)
+    // [MỚI] Hàm 2: Dành cho TẤT CẢ nhân vật khác (Quan, Bà Hàng Xóm, v.v...)
+    // Cách dùng: InventoryManager.Instance.ShowDialogueByID("quan", "Ta là quan huyện!");
+    public void ShowDialogueByID(string characterID, string content)
     {
-        // 1. Chỉ tắt UI cũ
         AnHetBangHoiThoai();
-
-        // 2. Bật cờ dừng di chuyển
         dangHoiThoai = true;
-
-        // 3. Hiện UI mới
         dangLaNPCNoi = true;
+
         npcDialogueGroup.SetActive(true);
 
-        if (npcObj != null) npcNameText.text = npcObj.name;
-        else npcNameText.text = "Người lạ";
+        CharacterData data = danhSachNhanVat.Find(x => x.id == characterID);
 
-        if (npcPortraitImage != null && portraitNPC != null)
-            npcPortraitImage.sprite = portraitNPC;
+        if (data != null)
+        {
+            npcNameText.text = data.tenHienThi;
+
+            if (npcPortraitImage != null)
+            {
+                if (data.coAnhDaiDien && data.avatar != null)
+                {
+                    npcPortraitImage.gameObject.SetActive(true);
+                    npcPortraitImage.sprite = data.avatar;
+                }
+                else
+                {
+                    // 🔥 NGƯỜI DẪN CHUYỆN → ẨN ẢNH
+                    npcPortraitImage.gameObject.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            npcNameText.text = "???";
+            if (npcPortraitImage != null)
+                npcPortraitImage.gameObject.SetActive(false);
+        }
 
         BatDauChayChu(npcDialogueText, content, -1f);
     }
 
-    // --- HÀM PHỤ TRỢ MỚI: CHỈ TẮT UI ---
-    // Hàm này giúp chuyển từ Player nói sang NPC nói mà không bị nhân vật "giật" di chuyển
+
+    // Hàm 3: Hỗ trợ code cũ (ShowDialogueNPC dùng GameObject)
+    // Tôi giữ lại hàm này để các script cũ của bạn không bị lỗi đỏ
+    public void ShowDialogueNPC(GameObject npcObj, string content, Sprite portraitNPC = null)
+    {
+        AnHetBangHoiThoai();
+        dangHoiThoai = true;
+        dangLaNPCNoi = true;
+
+        npcDialogueGroup.SetActive(true);
+
+        npcNameText.text = (npcObj != null) ? npcObj.name : "Người lạ";
+        if (npcPortraitImage != null && portraitNPC != null) npcPortraitImage.sprite = portraitNPC;
+
+        BatDauChayChu(npcDialogueText, content, -1f);
+    }
+
+    // --- 5. CÁC HÀM XỬ LÝ CHUNG (Logic tắt bật bảng) ---
+
     private void AnHetBangHoiThoai()
     {
         if (playerDialogueGroup != null) playerDialogueGroup.SetActive(false);
         if (npcDialogueGroup != null) npcDialogueGroup.SetActive(false);
-
         if (tienTrinhGoChu != null) StopCoroutine(tienTrinhGoChu);
         dangGoChu = false;
-
-        // QUAN TRỌNG: Hàm này KHÔNG set dangHoiThoai = false
     }
 
-    // Hàm xử lý chạy chữ chung cho cả 2
     void BatDauChayChu(TMP_Text targetText, string content, float speedOverride)
     {
         noiDungDayDu = content;
         float currentSpeed = (speedOverride > 0) ? speedOverride : tocDoGo;
-
         if (tienTrinhGoChu != null) StopCoroutine(tienTrinhGoChu);
         tienTrinhGoChu = StartCoroutine(ChayChuTungKyTu(targetText, content, currentSpeed));
     }
@@ -223,52 +312,29 @@ public class InventoryManager : MonoBehaviour
 
     public void OnDialoguePanelClick()
     {
-        // Xác định xem đang dùng bảng nào
         TMP_Text currentText = dangLaNPCNoi ? npcDialogueText : playerDialogueText;
-
         if (dangGoChu)
         {
-            // SKIP: Hiện hết chữ
             if (tienTrinhGoChu != null) StopCoroutine(tienTrinhGoChu);
             currentText.text = noiDungDayDu;
             dangGoChu = false;
         }
         else
         {
-            // CLOSE: Đóng bảng
             CloseDialogue();
         }
     }
 
     public void CloseDialogue()
     {
-        AnHetBangHoiThoai(); // Tắt UI
-
-        // Khi này mới thực sự cho nhân vật đi lại
-        // (Kiểm tra thêm: Nếu túi đồ đang mở thì vẫn không được đi)
-        if (!inventoryPanel.activeSelf)
-        {
-            dangHoiThoai = false;
-        }
+        AnHetBangHoiThoai();
+        if (!inventoryPanel.activeSelf) dangHoiThoai = false;
     }
 
-    // Hàm phụ trợ: Chỉ tắt UI (để chuyển giữa Player và NPC mà không bị giật trạng thái di chuyển)
-    private void CloseDialogueUIOnly()
-    {
-        playerDialogueGroup.SetActive(false);
-        npcDialogueGroup.SetActive(false);
-        if (tienTrinhGoChu != null) StopCoroutine(tienTrinhGoChu);
-        dangGoChu = false;
-    }
-
-    public void ShowTooltip(string text, Vector3 unused) // Không cần dùng biến vị trí nữa
+    public void ShowTooltip(string text, Vector3 unused)
     {
         tooltipText.text = text;
-
-        // Chỉ cần bật nó lên. Script TooltipFollow sẽ tự lo việc di chuyển.
         tooltipPanel.SetActive(true);
-
-        // Đẩy lên cùng để không bị che
         tooltipPanel.transform.SetAsLastSibling();
     }
 

@@ -30,7 +30,15 @@ public class EvidenceItem : MonoBehaviour
     void Start()
     {
         GetComponent<Collider2D>().isTrigger = true;
+
+        // 🔥 NẾU ĐÃ NHẶT → BIẾN MẤT
+        if (SaveGameManager.Instance != null &&
+            SaveGameManager.Instance.vatChungDaNhat.Contains(idVatChung))
+        {
+            Destroy(gameObject);
+        }
     }
+
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -65,6 +73,7 @@ public class EvidenceItem : MonoBehaviour
     void XuLyKhiClick()
     {
         Debug.Log("Đã thu thập: " + tenVatChung);
+        SaveGameManager.Instance.vatChungDaNhat.Add(idVatChung);
 
         // 1. Thêm vào túi đồ (Giữ nguyên)
         InventoryManager.Instance.AddItem(tenVatChung, iconVatChung, suyNghiCuaNhanVat);

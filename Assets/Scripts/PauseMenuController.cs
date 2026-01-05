@@ -3,6 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
+    [Header("UI Lưu Game")]
+    public GameObject saveGamePanel;
+    public int currentChapter = 1;
+
+
     [Header("UI Tạm Dừng")]
     public GameObject pausePanel; // Kéo cái Panel Pause vào đây
     public string mainMenuSceneName = "MainMenu"; // Tên scene màn hình chính
@@ -12,19 +17,18 @@ public class PauseMenuController : MonoBehaviour
 
     void Update()
     {
-        // Lắng nghe phím ESC
+        // 🔒 KHÓA PAUSE / SAVE KHI ĐANG HỘI THOẠI
+        if (InventoryManager.Instance != null &&
+            InventoryManager.Instance.dangHoiThoai)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (IsPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
+            if (IsPaused) ResumeGame();
+            else PauseGame();
         }
     }
+
 
     public void PauseGame()
     {
@@ -59,10 +63,47 @@ public class PauseMenuController : MonoBehaviour
 
         SceneManager.LoadScene(mainMenuSceneName);
     }
+    public void OpenSavePanel()
+    {
+        saveGamePanel.SetActive(true);
+
+        foreach (var slot in saveGamePanel.GetComponentsInChildren<SaveSlotUI>())
+        {
+            slot.Refresh();
+        }
+    }
+    public void CloseSavePanel()
+    {
+        saveGamePanel.SetActive(false);
+        pausePanel.SetActive(true);
+    }
+
 
     public void OnQuitClick()
     {
         Debug.Log("Thoát Game...");
         Application.Quit();
     }
+
+    public void SaveSlot1()
+    {
+        SaveGameManager.Instance.SaveGame(1);
+
+        saveGamePanel.SetActive(false);
+    }
+
+    public void SaveSlot2()
+    {
+        SaveGameManager.Instance.SaveGame(2);
+
+        saveGamePanel.SetActive(false);
+    }
+
+    public void SaveSlot3()
+    {
+        SaveGameManager.Instance.SaveGame(3);
+
+        saveGamePanel.SetActive(false);
+    }
+
 }

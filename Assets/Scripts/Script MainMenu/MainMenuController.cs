@@ -35,6 +35,12 @@ public class MainMenuController : MonoBehaviour
     private Vector3 initialScale;
     private int currentIndex = 0;
 
+    [Header("Load Slot Buttons")]
+    public Button slot1Button;
+    public Button slot2Button;
+    public Button slot3Button;
+
+
     void Start()
     {
         // 1. Setup Background
@@ -96,7 +102,13 @@ public class MainMenuController : MonoBehaviour
     public void OnLoadClick()
     {
         ShowPanel(loadGamePanel);
+
+        foreach (var slot in loadGamePanel.GetComponentsInChildren<SaveSlotUI>())
+        {
+            slot.Refresh();
+        }
     }
+
 
     public void OnSettingsClick()
     {
@@ -109,6 +121,57 @@ public class MainMenuController : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
+    }
+    public void LoadSlot1()
+    {
+        if (SaveGameManager.Instance.HasSave(1))
+            SaveGameManager.Instance.LoadGame(1);
+    }
+
+    public void LoadSlot2()
+    {
+        if (SaveGameManager.Instance.HasSave(2))
+            SaveGameManager.Instance.LoadGame(2);
+    }
+
+    public void LoadSlot3()
+    {
+        if (SaveGameManager.Instance.HasSave(3))
+            SaveGameManager.Instance.LoadGame(3);
+    }
+
+    public void DeleteSlot1()
+    {
+        SaveGameManager.Instance.DeleteSave(1);
+        RefreshLoadSlots();
+    }
+
+    public void DeleteSlot2()
+    {
+        SaveGameManager.Instance.DeleteSave(2);
+        RefreshLoadSlots();
+    }
+
+    public void DeleteSlot3()
+    {
+        SaveGameManager.Instance.DeleteSave(3);
+        RefreshLoadSlots();
+    }
+
+
+    public void RefreshLoadSlots()
+    {
+        Refresh(slot1Button, 1);
+        Refresh(slot2Button, 2);
+        Refresh(slot3Button, 3);
+    }
+
+    void Refresh(Button btn, int slot)
+    {
+        if (btn == null) return;
+
+        bool hasSave = SaveGameManager.Instance.HasSave(slot);
+        btn.interactable = hasSave;
     }
 
     // --- CÁC HÀM HỆ THỐNG ---
