@@ -2,6 +2,9 @@
 
 public class StoryTrigger : MonoBehaviour
 {
+    public string eventID = "gap_me_lan_dau";
+    public CutsceneManager cutsceneManager;
+
     [Header("Nội dung cốt truyện")]
     [TextArea(3, 10)]
     public string loiThoai;
@@ -12,17 +15,22 @@ public class StoryTrigger : MonoBehaviour
     [Tooltip("0 = Mặc định. Số càng lớn chữ chạy càng chậm (Buồn).")]
     public float tocDoRieng = 0f;
 
-    private bool daKichHoat = false;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !daKichHoat)
+        if (other.CompareTag("Player"))
         {
-            // Gửi thêm tocDoRieng vào hàm
-            InventoryManager.Instance.ShowDialogue(loiThoai, anhCamXuc, tocDoRieng);
+            // Kiểm tra trong File Save xem đã làm chưa
+            if (SaveGameManager.Instance.CheckEvent(eventID))
+                return; // Nếu làm rồi thì thôi, không chạy nữa
 
-            daKichHoat = true;
-            Debug.Log("Đã kích hoạt sự kiện cốt truyện: " + gameObject.name);
+            if (cutsceneManager != null)
+            {
+                cutsceneManager.BatDauCutscene();
+
+                // Đánh dấu đã hoàn thành vào File Save
+                SaveGameManager.Instance.CompleteEvent(eventID);
+            }
         }
     }
 }

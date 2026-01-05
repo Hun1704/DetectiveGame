@@ -2441,6 +2441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b35680eca708bc46a51f8391803b68c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveGameManager
+  pendingVatChungRestore: 
 --- !u!4 &909243672
 Transform:
   m_ObjectHideFlags: 0

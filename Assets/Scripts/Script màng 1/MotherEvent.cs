@@ -2,18 +2,23 @@
 
 public class MotherEvent : MonoBehaviour
 {
+    public string eventID = "gap_me_lan_dau";
     public CutsceneManager cutsceneManager; // Kéo GameObject chứa script CutsceneManager vào đây
-    private bool daKichHoat = false; // Đảm bảo chỉ chạy 1 lần duy nhất
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Nếu Player đi vào VÀ chưa từng kích hoạt trước đó
-        if (other.CompareTag("Player") && !daKichHoat)
+        if (other.CompareTag("Player"))
         {
+            // Kiểm tra trong File Save xem đã làm chưa
+            if (SaveGameManager.Instance.CheckEvent(eventID))
+                return; // Nếu làm rồi thì thôi, không chạy nữa
+
             if (cutsceneManager != null)
             {
-                cutsceneManager.BatDauCutscene(); // Gọi lệnh diễn phim
-                daKichHoat = true; // Khóa lại, không cho chạy lần 2
+                cutsceneManager.BatDauCutscene();
+
+                // Đánh dấu đã hoàn thành vào File Save
+                SaveGameManager.Instance.CompleteEvent(eventID);
             }
         }
     }

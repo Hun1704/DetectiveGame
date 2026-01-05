@@ -15,6 +15,8 @@ public class SaveData
     public float playerY;
 
     public List<int> danhSachVatChung;
+    public List<string> suKienDaHoanThanh;
+    public bool daHienVatChung = false;
 }
 
 public class SaveGameManager : MonoBehaviour
@@ -23,9 +25,9 @@ public class SaveGameManager : MonoBehaviour
 
     private string saveFolderPath;
 
-    public List<int> pendingVatChungRestore;
-
     public HashSet<int> vatChungDaNhat = new HashSet<int>();
+    public HashSet<string> suKienDaXong = new HashSet<string>();
+    public bool daKichHoatHienVatChung = false;
 
     void Awake()
     {
@@ -71,7 +73,8 @@ public class SaveGameManager : MonoBehaviour
         data.saveTime = System.DateTime.Now.ToString("dd/MM/yyyy HH:mm");
 
         data.danhSachVatChung = new List<int>(vatChungDaNhat);
-
+        data.suKienDaHoanThanh = new List<string>(suKienDaXong);
+        data.daHienVatChung = daKichHoatHienVatChung;
 
         File.WriteAllText(GetSavePath(slot),
             JsonUtility.ToJson(data, true));
@@ -89,12 +92,18 @@ public class SaveGameManager : MonoBehaviour
             File.ReadAllText(path));
 
         // 🔥 CHỈ LƯU TẠM
-        pendingVatChungRestore = data.danhSachVatChung;
         vatChungDaNhat.Clear();
-
         foreach (int id in data.danhSachVatChung)
             vatChungDaNhat.Add(id);
 
+        suKienDaXong.Clear();
+        if (data.suKienDaHoanThanh != null)
+        {
+            foreach (string id in data.suKienDaHoanThanh)
+                suKienDaXong.Add(id);
+        }
+
+        daKichHoatHienVatChung = data.daHienVatChung;
 
         StartCoroutine(LoadSceneAndRestore(data));
     }
@@ -103,9 +112,7 @@ public class SaveGameManager : MonoBehaviour
     {
         AsyncOperation load = SceneManager.LoadSceneAsync(data.sceneName);
         while (!load.isDone)
-            yield return null;
-
-        yield return null; // chờ object spawn
+            yield return new WaitForEndOfFrame();
 
         // Restore Player
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -116,6 +123,11 @@ public class SaveGameManager : MonoBehaviour
                 data.playerY,
                 player.transform.position.z
             );
+        }
+        PauseMenuController pause = FindFirstObjectByType<PauseMenuController>();
+        if (pause != null)
+        {
+            pause.currentChapter = data.chapter;
         }
 
         // 🔥 RESTORE INVENTORY Ở ĐÂY (CHẮC CHẮN)
@@ -154,5 +166,15 @@ public class SaveGameManager : MonoBehaviour
 
         string json = File.ReadAllText(path);
         return JsonUtility.FromJson<SaveData>(json);
+    }
+    public bool CheckEvent(string id)
+    {
+        return suKienDaXong.Contains(id);
+    }
+
+    public void CompleteEvent(string id)
+    {
+        if (!suKienDaXong.Contains(id))
+            suKienDaXong.Add(id);
     }
 }

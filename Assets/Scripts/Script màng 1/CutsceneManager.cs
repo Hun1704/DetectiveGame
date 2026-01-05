@@ -74,6 +74,16 @@ public class CutsceneManager : MonoBehaviour
 
     private bool daChonXong = false;
 
+    void Start()
+    {
+        // 🔥 KIỂM TRA NGAY KHI VÀO GAME
+        // Nếu SaveManager bảo là "Đã hiện vật chứng rồi" -> Thì bật lên ngay
+        if (SaveGameManager.Instance != null && SaveGameManager.Instance.daKichHoatHienVatChung)
+        {
+            HienTatCaVatChung();
+        }
+    }
+
     public void BatDauCutscene()
     {
         StartCoroutine(QuyTrinhChuyenCanh());
@@ -161,11 +171,23 @@ public class CutsceneManager : MonoBehaviour
         }
 
         Debug.Log("Hội thoại kết thúc! Hiện vật chứng...");
+        if (SaveGameManager.Instance != null)
+        {
+            SaveGameManager.Instance.daKichHoatHienVatChung = true;
+        }
+
+        HienTatCaVatChung(); // Gọi hàm bật đồ
+    }
+    void HienTatCaVatChung()
+    {
         if (danhSachVatChung != null)
         {
             foreach (GameObject vatChung in danhSachVatChung)
             {
-                if (vatChung != null) vatChung.SetActive(true);
+                if (vatChung != null)
+                {
+                    vatChung.SetActive(true);
+                }
             }
         }
     }

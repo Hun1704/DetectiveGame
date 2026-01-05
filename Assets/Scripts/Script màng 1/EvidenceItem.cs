@@ -4,26 +4,20 @@ using TMPro;
 
 public class EvidenceItem : MonoBehaviour
 {
-    [Header("ID Đối Chiếu (Quan trọng)")]
-    [Tooltip("ID này phải trùng với ID lời khai của Quan trong MindPalaceManager")]
-    public int idVatChung = 1; // Ví dụ: Cây trâm là ID 1
+    [Header("CHỈ CẦN NHẬP SỐ NÀY")]
+    public int idVatChung = 1;
 
-    public string tenVatChung = "";
-    public Sprite iconVatChung;
+    // --- CÁC BIẾN DƯỚI ĐÂY TỰ ĐỘNG LOAD, KHÔNG CẦN NHẬP TAY NỮA ---
+    private string tenVatChung;
+    private Sprite iconVatChung;
+    private string suyNghiCuaNhanVat;
+    private string noiDungSuyLuan;
 
-    public Button nutVatChung;  // Kéo cái Btn_VatChung vào đây
-    public TMP_Text textHienThi; // Kéo cái Text con của nút vào đây
+    [Header("UI & References")]
+    public Button nutVatChung;
+    public TMP_Text textHienThi;
 
-    [Header("Hội thoại khi nhặt")]
-    [TextArea(3, 10)]
-    public string suyNghiCuaNhanVat = ""; // Câu nói ngay lúc nhặt (VD: "Cái gì đây?")
-
-    [Header("Dữ liệu Suy Luận (MỚI)")]
-    [Tooltip("Câu chữ sẽ hiện trong màn hình suy luận (Mind Palace). Nếu để trống sẽ dùng câu bên trên.")]
-    [TextArea(3, 10)]
-    public string noiDungSuyLuan = ""; // Câu chốt hạ trong đầu (VD: "Vật này không bị dính nước mưa.")
-
-    [Header("Cài đặt Sự kiện đặc biệt (Dành cho Mẹ)")]
+    [Header("Sự kiện đặc biệt")]
     public bool kichHoatCutscene = false;
     public CutsceneManager boQuanLyCutscene;
 
@@ -31,82 +25,86 @@ public class EvidenceItem : MonoBehaviour
     {
         GetComponent<Collider2D>().isTrigger = true;
 
-        // 🔥 NẾU ĐÃ NHẶT → BIẾN MẤT
+        // 1. Kiểm tra xem đã nhặt chưa (Code cũ)
         if (SaveGameManager.Instance != null &&
             SaveGameManager.Instance.vatChungDaNhat.Contains(idVatChung))
         {
             Destroy(gameObject);
+            return;
         }
-    }
 
+        // 2. 🔥 TỰ ĐỘNG LẤY DỮ LIỆU TỪ MANAGER (FIX LỖI TRÙNG LẶP)
+        if (InventoryManager.Instance != null)
+        {
+            var data = InventoryManager.Instance.GetVatChungDataByID(idVatChung);
+            if (data != null)
+            {
+                tenVatChung = data.ten;
+                iconVatChung = data.icon;
+                suyNghiCuaNhanVat = data.moTa;
 
+                // 🔥 Dòng này bây giờ sẽ hết lỗi đỏ:
+                noiDungSuyLuan = string.IsNullOrEmpty(data.noiDungSuyLuan) ? data.moTa : data.noiDungSuyLuan;
+            }
+        }
+        else
+            {
+                Debug.LogError($"QUÊN NHẬP DATA CHO ID {idVatChung} TRONG INVENTORY MANAGER!");
+            }
+        }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
+            // Cập nhật text UI trước khi hiện
+            if (textHienThi != null) textHienThi.text = tenVatChung;
             HienNutUI();
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            AnNutUI();
-        }
+        if (other.CompareTag("Player")) AnNutUI();
     }
 
     void HienNutUI()
     {
-        textHienThi.text = tenVatChung;
-        nutVatChung.gameObject.SetActive(true);
-        nutVatChung.onClick.RemoveAllListeners();
-        nutVatChung.onClick.AddListener(XuLyKhiClick);
+        if (nutVatChung)
+        {
+            nutVatChung.gameObject.SetActive(true);
+            nutVatChung.onClick.RemoveAllListeners();
+            nutVatChung.onClick.AddListener(XuLyKhiClick);
+        }
     }
 
     void AnNutUI()
     {
-        nutVatChung.gameObject.SetActive(false);
+        if (nutVatChung) nutVatChung.gameObject.SetActive(false);
     }
 
-    // --- HÀM XỬ LÝ CHÍNH ĐÃ CẬP NHẬT ---
     void XuLyKhiClick()
     {
         Debug.Log("Đã thu thập: " + tenVatChung);
         SaveGameManager.Instance.vatChungDaNhat.Add(idVatChung);
 
-        // 1. Thêm vào túi đồ (Giữ nguyên)
-        InventoryManager.Instance.AddItem(tenVatChung, iconVatChung, suyNghiCuaNhanVat);
+        // 1. Thêm vào túi (Dùng ID thay vì truyền tay) -> Sạch sẽ hơn
+        InventoryManager.Instance.AddVatChungByID(idVatChung);
 
-        // 2. Hiện hội thoại ngay lập tức (Giữ nguyên)
+        // 2. Hiện hội thoại
         InventoryManager.Instance.ShowDialogue(suyNghiCuaNhanVat);
 
-        // 3. --- GỬI SANG MIND PALACE (CODE MỚI THÊM VÀO) ---
+        // 3. Gửi sang Mind Palace
         if (MindPalaceManager.Instance != null)
         {
-            // Kiểm tra: Nếu bạn quên nhập noiDungSuyLuan, code sẽ lấy luôn suyNghiCuaNhanVat dùng tạm
-            string noiDungDeGhiNho = "";
-            if (string.IsNullOrEmpty(noiDungSuyLuan))
-            {
-                noiDungDeGhiNho = suyNghiCuaNhanVat;
-            }
-            else
-            {
-                noiDungDeGhiNho = noiDungSuyLuan;
-            }
-
-            // Gửi dữ liệu đi
-            MindPalaceManager.Instance.NhatVatChung(noiDungDeGhiNho, idVatChung);
+            MindPalaceManager.Instance.NhatVatChung(noiDungSuyLuan, idVatChung);
         }
-        // ---------------------------------------------------
 
-        // 4. Kiểm tra Cutscene (Giữ nguyên)
+        // 4. Cutscene
         if (kichHoatCutscene && boQuanLyCutscene != null)
         {
             boQuanLyCutscene.BatDauCutscene();
         }
 
-        // 5. Dọn dẹp
         AnNutUI();
         Destroy(gameObject);
     }

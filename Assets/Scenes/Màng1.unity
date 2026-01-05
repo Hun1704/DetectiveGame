@@ -2027,6 +2027,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33b26375c92b6243830e18e7c3a8767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MindPalaceManager
+  dayNoi: {fileID: 1129440893}
+  uiCamera: {fileID: 519420031}
   mindPalacePanel: {fileID: 1002933568}
   mindPalaceRect: {fileID: 1002933565}
   leftContainer: {fileID: 654479628}
@@ -2069,7 +2071,8 @@ Transform:
   m_LocalPosition: {x: 1.40962, y: -0.27991, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1129440892}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
@@ -2537,12 +2540,14 @@ MonoBehaviour:
       ph\xEDa tr\u01B0\u1EDBc ho\u1EB7c tay \u0111\u1EC3 \u0111\u1EE1 \u0111\xF2n.
       K\u1EBB ra tay... l\xE0 m\u1ED9t s\xE1t th\u1EE7 chuy\xEAn nghi\u1EC7p t\u1EA5n
       c\xF4ng l\xE9n l\xFAt"
+    noiDungSuyLuan: "V\u1EBFt ch\xE9m tr\xEAn l\u01B0ng m\u1EB9"
   - id: 2
     ten: "Gi\u1EA5y N\u1EE3"
     icon: {fileID: -5618422036227683672, guid: 70e78576c22bba14bb123be75395e7e9, type: 3}
     moTa: "Ch\u1EEF k\xFD n\xE0y... n\xE9t m\u1EF1c c\xF2n ch\u01B0a kh\xF4. H\u01A1n
       n\u1EEFa cha ta thu\u1EADn tay tr\xE1i, n\xE9t b\xFAt n\xE0y l\u1EA1i nghi\xEAng
       v\u1EC1 b\xEAn ph\u1EA3i. \u0110\xE2y l\xE0 gi\u1EA3 m\u1EA1o!"
+    noiDungSuyLuan: "Gi\u1EA5y n\u1EE3 L\xFD H\xE0o \u0111\u01B0a"
   - id: 3
     ten: "C\xE1i Kh\u0103n"
     icon: {fileID: -6286794092536626728, guid: 6111992e136933141951b00fd185c238, type: 3}
@@ -2550,6 +2555,7 @@ MonoBehaviour:
       nh\u1EEFng th\u1EE9 t\u01A1 l\u1EE5a n\xE0y. \u0110\xE2y l\xE0 t\u01A1 l\u1EE5a
       th\u01B0\u1EE3ng h\u1EA1ng t\u1EEB Ph\u1EE7 T\xE2m Hoa. Li\u1EC7u hung th\u1EE7
       l\xE0 ng\u01B0\u1EDDi quy\u1EC1n qu\xFD? "
+    noiDungSuyLuan: "Mi\u1EBFng v\u1EA3i l\u1EE5a"
 --- !u!4 &616950410
 Transform:
   m_ObjectHideFlags: 0
@@ -2741,6 +2747,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74176d525f32148479053240c1b3aeba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryTrigger
+  eventID: gap_me_lan_dau
+  cutsceneManager: {fileID: 0}
   loiThoai: "\"Cha! M\u1EB9! \n\u0110\xE3 x\u1EA3y ra chuy\u1EC7n g\xEC th\u1EBF
     n\xE0y? M\xE1u... kh\u1EAFp n\u01A1i...\""
   anhCamXuc: {fileID: -3570741247070862609, guid: 495dfaf78819eda40b9e2581131dbf19, type: 3}
@@ -2757,6 +2765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e3405c91239c9b4a909c185d5ac6345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MotherEvent
+  eventID: gap_me_lan_dau
   cutsceneManager: {fileID: 313613626}
 --- !u!1 &654479627
 GameObject:
@@ -3012,15 +3021,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EvidenceItem
   idVatChung: 3
-  tenVatChung: "C\xE1i Kh\u0103n"
-  iconVatChung: {fileID: -6286794092536626728, guid: 6111992e136933141951b00fd185c238, type: 3}
   nutVatChung: {fileID: 1653972131}
   textHienThi: {fileID: 2059598427}
-  suyNghiCuaNhanVat: "Cha m\u1EB9 ta x\u01B0a nay ch\u01B0a t\u1EEBng th\xEDch th\xFA
-    v\u1EDBi nh\u1EEFng th\u1EE9 t\u01A1 l\u1EE5a n\xE0y. \u0110\xE2y l\xE0 t\u01A1
-    l\u1EE5a th\u01B0\u1EE3ng h\u1EA1ng t\u1EEB Ph\u1EE7 T\xE2m Hoa. Li\u1EC7u hung
-    th\u1EE7 l\xE0 ng\u01B0\u1EDDi quy\u1EC1n qu\xFD? "
-  noiDungSuyLuan: fdfas
   kichHoatCutscene: 0
   boQuanLyCutscene: {fileID: 0}
 --- !u!1 &685712946
@@ -3914,7 +3916,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 835225186}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1861161761}
+        m_TargetAssemblyTypeName: PauseMenuController, Assembly-CSharp
+        m_MethodName: OnQuitClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &835225186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4836,7 +4850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b35680eca708bc46a51f8391803b68c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveGameManager
-  pendingVatChungRestore: 
+  daKichHoatHienVatChung: 0
 --- !u!1 &1029052208
 GameObject:
   m_ObjectHideFlags: 0
@@ -5068,14 +5082,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EvidenceItem
   idVatChung: 2
-  tenVatChung: "Gi\u1EA5y N\u1EE3"
-  iconVatChung: {fileID: -5618422036227683672, guid: 70e78576c22bba14bb123be75395e7e9, type: 3}
   nutVatChung: {fileID: 616454841}
   textHienThi: {fileID: 1036453002}
-  suyNghiCuaNhanVat: "Ch\u1EEF k\xFD n\xE0y... n\xE9t m\u1EF1c c\xF2n ch\u01B0a kh\xF4.
-    H\u01A1n n\u1EEFa cha ta thu\u1EADn tay tr\xE1i, n\xE9t b\xFAt n\xE0y l\u1EA1i
-    nghi\xEAng v\u1EC1 b\xEAn ph\u1EA3i. \u0110\xE2y l\xE0 gi\u1EA3 m\u1EA1o!"
-  noiDungSuyLuan: "Gi\u1EA5y n\u1EE3 L\xFD H\xE0o \u0111\u01B0a"
   kichHoatCutscene: 0
   boQuanLyCutscene: {fileID: 0}
 --- !u!1 &1036453000
@@ -5489,6 +5497,148 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: -30}
+--- !u!1 &1129440891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1129440892}
+  - component: {fileID: 1129440893}
+  m_Layer: 0
+  m_Name: ConnectionLine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1129440892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129440891}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.11512, y: 0.20958999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 481002304}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &1129440893
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129440891}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 678163315
+  m_SortingLayer: 1
+  m_SortingOrder: 100
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 0, b: 0, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &1131510180
 GameObject:
   m_ObjectHideFlags: 0
@@ -5657,16 +5807,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EvidenceItem
   idVatChung: 1
-  tenVatChung: "V\u1EBFt Ch\xE9m"
-  iconVatChung: {fileID: -4667531427366427662, guid: a759a583b47102a4bb16d823e7c57787, type: 3}
   nutVatChung: {fileID: 600255121}
   textHienThi: {fileID: 861519983}
-  suyNghiCuaNhanVat: "M\u1EB9 b\u1ECB ch\xE9m t\u1EEB ph\xEDa sau l\u01B0ng. N\u1EBFu
-    l\xE0 x\xF4 x\xE1t v\u1EE3 ch\u1ED3ng, v\u1EBFt th\u01B0\u01A1ng ph\u1EA3i \u1EDF
-    ph\xEDa tr\u01B0\u1EDBc ho\u1EB7c tay \u0111\u1EC3 \u0111\u1EE1 \u0111\xF2n.
-    K\u1EBB ra tay... l\xE0 m\u1ED9t s\xE1t th\u1EE7 chuy\xEAn nghi\u1EC7p t\u1EA5n
-    c\xF4ng l\xE9n l\xFAt"
-  noiDungSuyLuan: "V\u1EBFt ch\xE9m tr\xEAn l\u01B0ng m\u1EB9"
   kichHoatCutscene: 0
   boQuanLyCutscene: {fileID: 0}
 --- !u!61 &1170738619

@@ -28,6 +28,19 @@ public class CharacterData
     public bool coAnhDaiDien = true;
 }
 
+[System.Serializable]
+public class VatChungData
+{
+    public int id;
+    public string ten;
+    public Sprite icon;
+    [TextArea] public string moTa;
+
+    [Header("Nội dung cho Mind Palace")]
+    [TextArea] public string noiDungSuyLuan;
+}
+
+
 
 public class InventoryManager : MonoBehaviour
 {
@@ -39,7 +52,14 @@ public class InventoryManager : MonoBehaviour
 
     [Header("=== DỮ LIỆU NHÂN VẬT (QUAN TRỌNG) ===")]
     // Bạn sẽ bấm dấu + ở đây để thêm Quan, Bà Hàng Xóm, v.v...
-    public List<CharacterData> danhSachNhanVat; 
+    public List<CharacterData> danhSachNhanVat;
+
+    // Thêm hàm này vào InventoryManager
+    public VatChungData GetVatChungDataByID(int id)
+    {
+        return databaseVatChung.Find(v => v.id == id);
+    }
+
 
     [Header("Thông tin nhân vật chính (Player)")]
     public GameObject nhanVatPlayer;
@@ -79,15 +99,6 @@ public class InventoryManager : MonoBehaviour
 
     private List<CollectedItemData> collectedItems = new List<CollectedItemData>();
 
-    [System.Serializable]
-    public class VatChungData
-    {
-        public int id;
-        public string ten;
-        public Sprite icon;
-        [TextArea] public string moTa;
-    }
-
     [Header("=== DATABASE VẬT CHỨNG (SAVE / LOAD) ===")]
     public List<VatChungData> databaseVatChung;
 
@@ -106,18 +117,13 @@ public class InventoryManager : MonoBehaviour
         dangHoiThoai = false;
 
         // 🔥 RESTORE VẬT CHỨNG TỪ SAVE
-        if (SaveGameManager.Instance != null &&
-            SaveGameManager.Instance.pendingVatChungRestore != null)
+        if (SaveGameManager.Instance != null && SaveGameManager.Instance.vatChungDaNhat.Count > 0)
         {
-            foreach (int id in SaveGameManager.Instance.pendingVatChungRestore)
+            foreach (int id in SaveGameManager.Instance.vatChungDaNhat)
             {
                 AddVatChungByID(id);
             }
-
-            Debug.Log("Inventory: Đã restore toàn bộ vật chứng");
-
-            // ❗ KHÔNG XÓA pending ở đây
-            // Để MindPalace còn đọc lại
+            Debug.Log("Inventory: Đã restore từ SaveGameManager (An toàn)");
         }
     }
 
