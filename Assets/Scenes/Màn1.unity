@@ -511,7 +511,7 @@ MonoBehaviour:
   - noiDung: "M\u01B0a l\u1EDBn qu\xE1... Cu\u1ED1i c\xF9ng c\u0169ng v\u1EC1 \u0111\u1EBFn
       nh\xE0. Kh\xF4ng bi\u1EBFt cha m\u1EB9 \u0111\xE3 ng\u1EE7 ch\u01B0a?"
     bieuCam: {fileID: 0}
-    sfxKemTheo: {fileID: 0}
+    sfxKemTheo: {fileID: 8300000, guid: a0473c8c6e8035a4eb60d4f6352a3838, type: 3}
   - noiDung: "L\u1EA1 th\u1EADt. Gi\xF3 l\u1EDBn th\u1EBF n\xE0y m\xE0 c\u1ED5ng
       ng\xF5 l\u1EA1i m\u1EDF toang? C\xF3 v\u1EBFt tr\u01B0\u1EE3t ch\xE2n tr\xEAn
       n\u1EC1n \u0111\u1EA5t..."
@@ -2955,19 +2955,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 835225186}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1861161761}
-        m_TargetAssemblyTypeName: PauseMenuController, Assembly-CSharp
-        m_MethodName: OnQuitClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &835225186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2988,8 +2976,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3072,8 +3060,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5888,7 +5876,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 1368814394}
   tocDoHien: 1
   nutTiepTuc: {fileID: 835225185}
-  tenSceneTiepTheo: Man2
+  tenSceneTiepTheo: "M\xE0n2"
   soChapterTiepTheo: 2
 --- !u!225 &1368814394
 CanvasGroup:
@@ -5899,7 +5887,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1368814392}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 0
+  m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1368814395
@@ -5916,7 +5904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
