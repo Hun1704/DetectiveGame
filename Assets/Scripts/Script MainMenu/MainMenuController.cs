@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 public class MainMenuController : MonoBehaviour
 {
+    [Header("--- SCENE GAME ---")]
+    public string gameSceneName = "IntroScene";
+
     [Header("--- ÂM THANH ---")]
     public AudioSource backgroundMusic; 
     public float musicFadeDuration = 1.5f; 
@@ -25,9 +28,6 @@ public class MainMenuController : MonoBehaviour
     [Header("--- CÀI ĐẶT ---")]
     public Slider volumeSlider;
     public Toggle fullscreenToggle;
-
-    [Header("--- SCENE GAME ---")]
-    public string gameSceneName = "GameScene";
 
     // Biến nội bộ
     private CanvasGroup bgCanvasGroup;
@@ -72,7 +72,7 @@ public class MainMenuController : MonoBehaviour
 
     public void OnStartClick()
     {
-        
+        SaveGameManager.Instance.currentSlot = 1;
         StartCoroutine(FadeOutMusicAndLoadScene());
     }
 
@@ -125,19 +125,28 @@ public class MainMenuController : MonoBehaviour
     public void LoadSlot1()
     {
         if (SaveGameManager.Instance.HasSave(1))
+        {
+            SaveGameManager.Instance.currentSlot = 1; // 🔥 MỚI: Nhớ Slot 1
             SaveGameManager.Instance.LoadGame(1);
+        }
     }
 
     public void LoadSlot2()
     {
         if (SaveGameManager.Instance.HasSave(2))
+        {
+            SaveGameManager.Instance.currentSlot = 2; // 🔥 MỚI: Nhớ Slot 2
             SaveGameManager.Instance.LoadGame(2);
+        }
     }
 
     public void LoadSlot3()
     {
         if (SaveGameManager.Instance.HasSave(3))
+        {
+            SaveGameManager.Instance.currentSlot = 3; // 🔥 MỚI: Nhớ Slot 3
             SaveGameManager.Instance.LoadGame(3);
+        }
     }
 
     public void DeleteSlot1()

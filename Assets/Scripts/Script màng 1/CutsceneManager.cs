@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class CutsceneManager : MonoBehaviour
 {
+    [Header("--- CÀI ĐẶT ÂM THANH ---")]
+    public AudioSource sfxAudioSource;
     // --- 1. CẬP NHẬT STRUCT LỰA CHỌN ---
     [System.Serializable]
     public class LuaChon
@@ -15,13 +17,17 @@ public class CutsceneManager : MonoBehaviour
 
         [TextArea]
         public string mcTraLoi;
+        public Sprite camXucMC; // 🔥 MỚI: Cảm xúc MC khi trả lời
+        public AudioClip sfxMC; // 🔥 MỚI: Âm thanh khi MC trả lời
 
         [Header("NPC ĐÁP TRẢ")]
         [Tooltip("Ai là người đáp lại câu này? Nhập ID (vd: quan, linh)")]
-        public string idNguoiDapLai; // 🔥 MỚI: Nhập ID người trả lời vào đây
+        public string idNguoiDapLai; 
 
         [TextArea]
         public string npcDapLai;
+        public Sprite camXucNPC; // 🔥 MỚI: Cảm xúc NPC khi đáp trả
+        public AudioClip sfxNPC; // 🔥 MỚI: Âm thanh khi NPC đáp trả
     }
 
     // --- 2. CẬP NHẬT STRUCT HỘI THOẠI ---
@@ -34,8 +40,9 @@ public class CutsceneManager : MonoBehaviour
         [Tooltip("Nếu KHÔNG phải Player, hãy nhập ID nhân vật vào đây (vd: quan, linh, ba_hang_xom)")]
         public string npcID; // 🔥 MỚI: Nhập ID nhân vật phụ
 
-        [TextArea(2, 5)]
-        public string noiDung;
+        [TextArea(2, 5)] public string noiDung;
+        public Sprite anhCamXuc;     // 🔥 MỚI: Kéo ảnh mặt khóc/cười/sốc vào đây
+        public AudioClip amThanhKem; // 🔥 MỚI: Kéo âm thanh (hốt hoảng, tiếng động) vào đây
 
         [Header("TÙY CHỌN RẼ NHÁNH")]
         public List<LuaChon> cacLuaChon;
@@ -76,12 +83,14 @@ public class CutsceneManager : MonoBehaviour
 
     void Start()
     {
-        // 🔥 KIỂM TRA NGAY KHI VÀO GAME
-        // Nếu SaveManager bảo là "Đã hiện vật chứng rồi" -> Thì bật lên ngay
         if (SaveGameManager.Instance != null && SaveGameManager.Instance.daKichHoatHienVatChung)
         {
             HienTatCaVatChung();
         }
+
+        // Tự động tìm AudioSource nếu quên kéo
+        if (sfxAudioSource == null)
+            sfxAudioSource = GetComponent<AudioSource>();
     }
 
     public void BatDauCutscene()
@@ -195,16 +204,28 @@ public class CutsceneManager : MonoBehaviour
     // --- HÀM HỖ TRỢ HIỂN THỊ (ĐÃ SỬA ĐỔI) ---
     void HienThiHoiThoai(DongHoiThoai dong)
     {
+        // 1. Phát âm thanh (nếu có)
+        PlaySFX(dong.amThanhKem);
+
+        // 2. Hiện hội thoại kèm cảm xúc
         if (dong.laNhanVatChinh)
         {
-            // Nếu là Player -> Gọi hàm ShowDialogue
-            InventoryManager.Instance.ShowDialogue(dong.noiDung);
+            // Player nói (Truyền ảnh cảm xúc vào hàm ShowDialogue)
+            InventoryManager.Instance.ShowDialogue(dong.noiDung, dong.anhCamXuc);
         }
         else
         {
-            // Nếu là NPC -> Gọi hàm ShowDialogueByID với ID đã nhập
-            // Ví dụ: dong.npcID là "quan" hoặc "linh"
-            InventoryManager.Instance.ShowDialogueByID(dong.npcID, dong.noiDung);
+            // NPC nói (Truyền ảnh cảm xúc Override vào hàm ShowDialogueByID)
+            InventoryManager.Instance.ShowDialogueByID(dong.npcID, dong.noiDung, dong.anhCamXuc);
+        }
+    }
+
+    // Hàm phụ trợ phát nhạc cho gọn code
+    void PlaySFX(AudioClip clip)
+    {
+        if (clip != null && sfxAudioSource != null)
+        {
+            sfxAudioSource.PlayOneShot(clip);
         }
     }
 
@@ -258,23 +279,17 @@ public class CutsceneManager : MonoBehaviour
     {
         foreach (Transform child in choiceContainer) Destroy(child.gameObject);
 
-        // 1. Hiện MC trả lời
-        InventoryManager.Instance.ShowDialogue(luaChon.mcTraLoi);
+        // 1. MC Trả lời (Kèm Cảm xúc & SFX)
+        PlaySFX(luaChon.sfxMC);
+        InventoryManager.Instance.ShowDialogue(luaChon.mcTraLoi, luaChon.camXucMC);
 
         yield return null;
         yield return new WaitUntil(() => !InventoryManager.Instance.dangHoiThoai);
 
-        // 2. Hiện NPC đáp trả (ĐÃ SỬA)
-        // Dùng ID người đáp lại mà bạn nhập trong Inspector (vd: "quan")
-        if (!string.IsNullOrEmpty(luaChon.idNguoiDapLai))
-        {
-            InventoryManager.Instance.ShowDialogueByID(luaChon.idNguoiDapLai, luaChon.npcDapLai);
-        }
-        else
-        {
-            // Fallback nếu quên nhập ID -> Mặc định là quan
-            InventoryManager.Instance.ShowDialogueByID("quan", luaChon.npcDapLai);
-        }
+        // 2. NPC Đáp trả (Kèm Cảm xúc & SFX)
+        string idDap = string.IsNullOrEmpty(luaChon.idNguoiDapLai) ? "quan" : luaChon.idNguoiDapLai;
+        PlaySFX(luaChon.sfxNPC);
+        InventoryManager.Instance.ShowDialogueByID(idDap, luaChon.npcDapLai, luaChon.camXucNPC);
 
         yield return null;
         yield return new WaitUntil(() => !InventoryManager.Instance.dangHoiThoai);

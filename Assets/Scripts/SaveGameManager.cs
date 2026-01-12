@@ -17,11 +17,13 @@ public class SaveData
     public List<int> danhSachVatChung;
     public List<string> suKienDaHoanThanh;
     public bool daHienVatChung = false;
+    public bool isNewChapterStart;
 }
 
 public class SaveGameManager : MonoBehaviour
 {
     public static SaveGameManager Instance;
+    public int currentSlot = 1;
 
     private string saveFolderPath;
 
@@ -108,6 +110,27 @@ public class SaveGameManager : MonoBehaviour
         StartCoroutine(LoadSceneAndRestore(data));
     }
 
+    public void SaveAsNewChapter(int nextChapter, string nextSceneName)
+    {
+        SaveData data = new SaveData();
+
+        // Cập nhật thông tin mới
+        data.sceneName = nextSceneName;
+        data.chapter = nextChapter;
+        data.saveTime = System.DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+
+        // Đánh dấu đây là khởi đầu màn mới -> Để khi load game KHÔNG set vị trí nhân vật cũ
+        data.isNewChapterStart = true;
+
+        // Lưu Inventory & Sự kiện hiện tại (Để qua màn mới vẫn còn đồ)
+        data.danhSachVatChung = new List<int>(vatChungDaNhat);
+        data.suKienDaHoanThanh = new List<string>(suKienDaXong);
+
+        // Ghi đè vào Slot đang chơi
+        File.WriteAllText(GetSavePath(currentSlot), JsonUtility.ToJson(data, true));
+        Debug.Log($"Auto-Save chuyển Chapter: Slot {currentSlot} -> {nextSceneName}");
+    }
+
     private IEnumerator LoadSceneAndRestore(SaveData data)
     {
         AsyncOperation load = SceneManager.LoadSceneAsync(data.sceneName);
@@ -123,6 +146,10 @@ public class SaveGameManager : MonoBehaviour
                 data.playerY,
                 player.transform.position.z
             );
+        }
+        if (!data.isNewChapterStart)
+        {
+            player.transform.position = new Vector3(data.playerX, data.playerY, player.transform.position.z);
         }
         PauseMenuController pause = FindFirstObjectByType<PauseMenuController>();
         if (pause != null)

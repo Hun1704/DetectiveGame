@@ -231,7 +231,10 @@ public class InventoryManager : MonoBehaviour
 
     // [MỚI] Hàm 2: Dành cho TẤT CẢ nhân vật khác (Quan, Bà Hàng Xóm, v.v...)
     // Cách dùng: InventoryManager.Instance.ShowDialogueByID("quan", "Ta là quan huyện!");
-    public void ShowDialogueByID(string characterID, string content)
+    // Trong InventoryManager.cs
+
+    // Sửa hàm này để nhận thêm tham số emotionOverride (Sprite)
+    public void ShowDialogueByID(string characterID, string content, Sprite emotionOverride = null)
     {
         AnHetBangHoiThoai();
         dangHoiThoai = true;
@@ -247,14 +250,18 @@ public class InventoryManager : MonoBehaviour
 
             if (npcPortraitImage != null)
             {
-                if (data.coAnhDaiDien && data.avatar != null)
+                if (data.coAnhDaiDien)
                 {
                     npcPortraitImage.gameObject.SetActive(true);
-                    npcPortraitImage.sprite = data.avatar;
+
+                    // 🔥 LOGIC MỚI: Ưu tiên dùng ảnh cảm xúc (nếu có), nếu không thì dùng avatar mặc định
+                    if (emotionOverride != null)
+                        npcPortraitImage.sprite = emotionOverride;
+                    else
+                        npcPortraitImage.sprite = data.avatar;
                 }
                 else
                 {
-                    // 🔥 NGƯỜI DẪN CHUYỆN → ẨN ẢNH
                     npcPortraitImage.gameObject.SetActive(false);
                 }
             }
@@ -262,8 +269,7 @@ public class InventoryManager : MonoBehaviour
         else
         {
             npcNameText.text = "???";
-            if (npcPortraitImage != null)
-                npcPortraitImage.gameObject.SetActive(false);
+            if (npcPortraitImage != null) npcPortraitImage.gameObject.SetActive(false);
         }
 
         BatDauChayChu(npcDialogueText, content, -1f);

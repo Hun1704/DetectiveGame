@@ -57,6 +57,16 @@ public class MindPalaceManager : MonoBehaviour
     [TextArea(3, 6)] public string cauThoaiKetLuanChapter;
     public GameObject panelKetThucChapter;
 
+    [Header("--- ÂM THANH KẾT THÚC CHAPTER ---")]
+    [Tooltip("Kéo AudioSource phát nhạc nền của màn chơi vào đây để tắt nó")]
+    public AudioSource nhacNenCanTat;
+
+    [Tooltip("Kéo AudioSource của chính MindPalace vào đây để phát nhạc chiến thắng")]
+    public AudioSource audioSourceKetThuc;
+
+    [Tooltip("Bài nhạc hào hùng khi phá án thành công")]
+    public AudioClip nhacKetThucChapter;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -313,13 +323,56 @@ public class MindPalaceManager : MonoBehaviour
 
     IEnumerator QuyTrinhKetThucChapter()
     {
-        yield return new WaitForSeconds(0.5f);
+        // 1. Chờ 1 nhịp sau khi nối đúng dây
+        yield return new WaitForSeconds(0.8f);
+
+        // 2. Đóng bảng Mind Palace lại
         yield return StartCoroutine(TatBangSuyLuan());
 
-        InventoryManager.Instance?.ShowDialogue(cauThoaiKetLuanChapter);
-        yield return new WaitUntil(() => InventoryManager.Instance != null && !InventoryManager.Instance.dangHoiThoai);
+        // 3. Tắt nhạc nền cũ (Fade Out)
+        // Lúc này không gian sẽ dần trở nên im lặng để chuẩn bị cho câu nói quan trọng
+        if (nhacNenCanTat != null && nhacNenCanTat.isPlaying)
+        {
+            StartCoroutine(FadeOutMusic(nhacNenCanTat, 1.5f));
+        }
 
-        panelKetThucChapter?.SetActive(true);
+        // 4. Nhân vật chính đưa ra kết luận (Trong sự im lặng hoặc nhạc nền đang tắt dần)
+        InventoryManager.Instance.ShowDialogue(cauThoaiKetLuanChapter);
+
+        // Chờ 1 frame để UI bật lên
+        yield return null;
+        // 🔥 CHỜ NGƯỜI CHƠI ĐỌC XONG CÂU THOẠI
+        yield return new WaitUntil(() => !InventoryManager.Instance.dangHoiThoai);
+
+        // 5. 🔥 PHÁT NHẠC CHIẾN THẮNG (Bây giờ mới phát!) 🔥
+        if (audioSourceKetThuc != null && nhacKetThucChapter != null)
+        {
+            audioSourceKetThuc.clip = nhacKetThucChapter;
+            audioSourceKetThuc.volume = 1f;
+            audioSourceKetThuc.loop = true;
+            audioSourceKetThuc.Play();
+        }
+
+        // 6. Hiện bảng kết thúc Chapter ngay lập tức cùng với nhạc
+        if (panelKetThucChapter != null)
+            panelKetThucChapter.SetActive(true);
+    }
+
+    IEnumerator FadeOutMusic(AudioSource audioSource, float duration)
+    {
+        float startVolume = audioSource.volume;
+        float t = 0;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            // Giảm volume từ mức hiện tại về 0
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, t / duration);
+            yield return null;
+        }
+
+        audioSource.Stop(); // Tắt hẳn
+        audioSource.volume = startVolume; // Trả lại volume gốc để lần sau dùng tiếp
     }
 
     IEnumerator TatBangSuyLuan()

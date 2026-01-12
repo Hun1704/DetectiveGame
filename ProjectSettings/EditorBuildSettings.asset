@@ -9,7 +9,10 @@ EditorBuildSettings:
     path: "Assets/Scenes/Menu Ch\xEDnh.unity"
     guid: 625eb39767909a04285aa87f61eaa092
   - enabled: 1
-    path: "Assets/Scenes/M\xE0ng1.unity"
+    path: Assets/Scenes/IntroScene.unity
+    guid: 2ad4b6bc3d6db964ab3799f6f150455b
+  - enabled: 1
+    path: "Assets/Scenes/M\xE0n1.unity"
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
     path: "Assets/Scenes/B\u1EAFt \u0111\u1EA7u.unity"
