@@ -1,24 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic; // Cần cái này để dùng List
 
 public class StoryTrigger : MonoBehaviour
 {
     [Header("Cấu hình Sự kiện")]
-    public string eventID = "gap_me_lan_dau"; // ID để lưu game
-    public CutsceneManager cutsceneManager;     // Kéo CutsceneManager vào đây
+    public string eventID = "gap_me_lan_dau";
+    public CutsceneManager cutsceneManager;
 
-    [Header("Cấu hình Thời gian (MỚI)")]
+    [Header("Cấu hình Thời gian")]
     [Tooltip("Sau khi âm thanh vang lên, đợi bao nhiêu giây mới hiện chữ?")]
-    public float thoiGianChoAmThanh = 2.0f; // 🔥 MỚI: Mặc định đợi 2 giây
+    public float thoiGianChoAmThanh = 2.0f;
 
-    [Header("Hội thoại mở đầu (Trước khi vào Cutscene)")]
-    [TextArea(3, 10)]
-    public string loiThoai; // Nội dung: "Ôi trời, cái gì thế này?"
+    // --- 🔥 CẬP NHẬT MỚI: DÙNG LIST ĐỂ CHỨA NHIỀU CÂU ---
+    [System.Serializable]
+    public class CauThoaiChiTiet
+    {
+        [TextArea(3, 10)]
+        public string noiDung;  // Nội dung câu nói
+        public Sprite bieuCam;  // Cảm xúc riêng cho câu này (nếu để trống sẽ dùng cái mặc định hoặc cái cũ)
+    }
 
-    [Header("Cảm xúc & Âm thanh")]
-    public Sprite anhCamXuc;      // Ảnh mặt sốc
-    public AudioClip amThanhSoc;  // 🔥 MỚI: Tiếng "Hả?!", tiếng nhạc giật gân...
-    public AudioSource audioSource; // Loa phát nhạc (tự tìm nếu quên kéo)
+    [Header("Hội thoại mở đầu")]
+    public List<CauThoaiChiTiet> danhSachLoiThoai; // Thay thế cho biến string loiThoai cũ
+
+    [Header("Âm thanh ban đầu")]
+    public AudioClip amThanhSoc;
+    public AudioSource audioSource;
 
     [Tooltip("0 = Mặc định. Số càng lớn chữ chạy càng chậm.")]
     public float tocDoRieng = 0f;
@@ -32,46 +40,47 @@ public class StoryTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Chỉ chạy khi Player bước vào VÀ chưa kích hoạt trong phiên chơi này
         if (other.CompareTag("Player") && !daKichHoat)
         {
-            // Kiểm tra Save Game: Nếu làm rồi thì thôi
             if (SaveGameManager.Instance.CheckEvent(eventID))
                 return;
 
-            // Bắt đầu chuỗi hành động
             StartCoroutine(QuyTrinhKichHoat());
         }
     }
 
     IEnumerator QuyTrinhKichHoat()
     {
-        daKichHoat = true; // Khóa lại ngay để không bị trigger 2 lần
+        daKichHoat = true;
 
-        // 1. Phát âm thanh Sốc (nếu có)
+        // 1. Phát âm thanh Sốc (Giữ nguyên logic cũ)
         if (audioSource != null && amThanhSoc != null)
         {
             audioSource.PlayOneShot(amThanhSoc);
         }
 
+        // 2. Đợi âm thanh ngấm vào người chơi
         yield return new WaitForSeconds(thoiGianChoAmThanh);
 
-        // 2. Hiện thoại nhân vật (Kèm ảnh cảm xúc)
-        // Hệ thống Inventory sẽ tự động khóa di chuyển của Player
-        InventoryManager.Instance.ShowDialogue(loiThoai, anhCamXuc, tocDoRieng);
+        // 3. 🔥 LOGIC MỚI: Chạy vòng lặp từng câu thoại
+        foreach (var cau in danhSachLoiThoai)
+        {
+            // Gọi hiển thị (truyền nội dung và biểu cảm của câu đó vào)
+            InventoryManager.Instance.ShowDialogue(cau.noiDung, cau.bieuCam, tocDoRieng);
 
-        // 3. 🔥 QUAN TRỌNG: Chờ người chơi đọc xong thoại
-        // (Đây là bước bạn bị thiếu trước đó)
-        yield return null; // Chờ 1 frame để UI kịp bật
-        yield return new WaitUntil(() => !InventoryManager.Instance.dangHoiThoai);
+            yield return null; // Đợi 1 frame cho UI bật lên
 
-        // 4. Sau khi thoại xong -> Mới gọi CutsceneManager làm việc
+            // Chờ người chơi đọc xong câu này mới qua câu kia
+            yield return new WaitUntil(() => !InventoryManager.Instance.dangHoiThoai);
+        }
+
+        // 4. Sau khi nói hết danh sách -> Gọi CutsceneManager
         if (cutsceneManager != null)
         {
             cutsceneManager.BatDauCutscene();
         }
 
-        // 5. Lưu game là đã xong sự kiện này
+        // 5. Lưu game
         SaveGameManager.Instance.CompleteEvent(eventID);
     }
 }

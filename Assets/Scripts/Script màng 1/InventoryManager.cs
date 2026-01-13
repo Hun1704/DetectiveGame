@@ -131,6 +131,7 @@ public class InventoryManager : MonoBehaviour
     void Update()
     {
         if(inventoryPanel.activeSelf) transform.position = Input.mousePosition + offset;
+        
     }
 
     // --- 3. CÁC HÀM INVENTORY (Giữ nguyên) ---
