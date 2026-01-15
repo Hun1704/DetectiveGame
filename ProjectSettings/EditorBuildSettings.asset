@@ -18,6 +18,12 @@ EditorBuildSettings:
     path: "Assets/Scenes/M\xE0n2.unity"
     guid: ce45616ff123b3447b262f19adc830ca
   - enabled: 1
+    path: "Assets/Scenes/M\xE0n 2-Ph\xF2ng Ng\u1ECDc Khu\xEA.unity"
+    guid: 01ad3e107106e1b48b1b33d963f6373b
+  - enabled: 1
+    path: "Assets/Scenes/M\xE0n 2-Private Room.unity"
+    guid: 42516dfc8f7d5c54392b09fc32074c6f
+  - enabled: 1
     path: "Assets/Scenes/M\xE0n3.unity"
     guid: e325b515f7c4cbf4ea1316fb40a65803
   - enabled: 1

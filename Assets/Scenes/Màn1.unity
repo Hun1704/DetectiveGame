@@ -763,6 +763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9759577fba42c0c4c8c7c3328b20d3c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CutsceneManager
+  cutsceneID: "M\xE0n1"
   sfxAudioSource: {fileID: 313613628}
   tiengGioCua: {fileID: 993168573}
   fadePanel: {fileID: 272043623}
@@ -771,7 +772,9 @@ MonoBehaviour:
   choiceButtonPrefab: {fileID: 8012488246747917166, guid: c9ae964d643169645a4e1ae579b97f33, type: 3}
   quan: {fileID: 44138425}
   linh: {fileID: 685712946}
-  tocDoDiChuyen: 15
+  tocDoDiChuyen: 3
+  ngocKhueNgoi: {fileID: 0}
+  ngocKhueDung: {fileID: 0}
   viTriDungQuan: {fileID: 1523994739}
   viTriDungLinh: {fileID: 1617199361}
   loiRaQuan: {fileID: 1912030877}
@@ -784,29 +787,36 @@ MonoBehaviour:
     anhCamXuc: {fileID: 3103107032202501148, guid: 70c37cf473a44a54fa052463133eb927, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: dan_chuyen
     noiDung: "L\xFD H\xE0o ki\u1EC3m tra g\u1EA7n ch\u1ED7 x\xE1c cha "
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "Ch\u1EADc ch\u1EADc... \u0110\u01B0\u1EDDng \u0111\u01B0\u1EDDng l\xE0
       m\u1ED9t nh\xE0 nho, l\u1EA1i \u0111i vay n\u1EB7ng l\xE3i \u0111\u1EC3 r\u1ED3i
       t\xFAng qu\u1EABn l\xE0m li\u1EC1u. Ch\u1ED3ng gi\u1EBFt v\u1EE3, r\u1ED3i
       treo c\u1ED5 t\u1EF1 v\u1EABn. \u0110\xFAng l\xE0 bi k\u1ECBch."
-    anhCamXuc: {fileID: 0}
+    anhCamXuc: {fileID: 3103107032202501148, guid: 70c37cf473a44a54fa052463133eb927, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "\xD4ng n\xF3i b\u1EADy! Cha ta c\u1EA3 \u0111\u1EDDi thanh b\u1EA1ch,
-      ch\u01B0a t\u1EEBng vay m\u01B0\u1EE3n ai n\u1EEDa xu. V\u1EBFt th\u01B0\u01A1ng
-      tr\xEAn ng\u01B0\u1EDDi m\u1EB9 ta r\xF5 r\xE0ng l\xE0.."
+      ch\u01B0a t\u1EEBng vay m\u01B0\u1EE3n ai n\u1EEDa xu. "
     anhCamXuc: {fileID: -5920170677128127979, guid: c7dd7826c7dd68247bd7aea3fa177303, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "Th\u1EBF \u0111\xE2y l\xE0 g\xEC, ngay d\u01B0\u1EDBi ch\xE2n cha ng\u01B0\u01A1i
@@ -814,28 +824,35 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: dan_chuyen
     noiDung: "L\xFD H\xE0o n\xE9m t\u1EDD gi\u1EA5y n\u1EE3 xu\u1ED1ng \u0111\u1EA5t"
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "L\xE0 do x\xF4 x\xE1t! H\u1EAFn gi\u1EBFt v\u1EE3 trong c\u01A1n \u0111i\xEAn
-      lo\u1EA1n. C\xF2n \u0111\xE2y...\" (L\xFD H\xE0o n\xE9m to\u1EB9t m\u1ED9t
-      t\u1EDD gi\u1EA5y xu\u1ED1ng \u0111\u1EA5t) \"Gi\u1EA5y n\u1EE3 vi\u1EBFt tay
-      c\u1EE7a cha ng\u01B0\u01A1i, m\u1EF1c c\xF2n ch\u01B0a kh\xF4 \u0111\xE2u.
-      \u0110\u1EEBng c\xF3 gi\xE0 m\u1ED3m"
+      lo\u1EA1n. C\xF2n \u0111\xE2y... Gi\u1EA5y n\u1EE3 vi\u1EBFt tay c\u1EE7a cha
+      ng\u01B0\u01A1i, m\u1EF1c c\xF2n ch\u01B0a kh\xF4 \u0111\xE2u. \u0110\u1EEBng
+      c\xF3 gi\xE0 m\u1ED3m"
     anhCamXuc: {fileID: 2549212463485757873, guid: bd8a075b59f92e54786a355f57d1d53e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "\xD4ng n\xF3i c\xE1i g\xEC?"
     anhCamXuc: {fileID: -5920170677128127979, guid: c7dd7826c7dd68247bd7aea3fa177303, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "Nh\xECn cho k\u1EF9 \u0111i. M\u1EB9 ng\u01B0\u01A1i b\u1ECB ch\xE9m
@@ -845,12 +862,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 4532469784274293886, guid: 7df3843dc00e8594f82bb867b413111e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "V\u1EADy th\xEC c\xE0ng ph\u1EA3i \u0111i\u1EC1u tra..."
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "C\u1EA7n g\xEC \u0111i\u1EC1u tra! Ta \u0111\xE3 nghe phong thanh t\u1EEB
@@ -861,6 +882,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "Ch\u1EAFc l\xE0 b\u1ECB m\u1EB9 ng\u01B0\u01A1i ph\xE1t hi\u1EC7n,
@@ -870,6 +893,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 2549212463485757873, guid: bd8a075b59f92e54786a355f57d1d53e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "Ng\u1EADm m\xE1u phun ng\u01B0\u1EDDi! Cha ta c\u1EA3 \u0111\u1EDDi
@@ -878,13 +903,27 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
+  - laNhanVatChinh: 1
+    npcID: 
+    noiDung: "V\u1EBFt ch\xE9m tr\xEAn l\u01B0ng m\u1EB9 ta s\u1EAFc ng\u1ECDt nh\u01B0
+      th\u1EBF, cha ta l\xE0 th\u01B0 sinh tr\xF3i g\xE0 kh\xF4ng ch\u1EB7t, l\xE0m
+      sao ch\xE9m \u0111\u01B0\u1EE3c?"
+    anhCamXuc: {fileID: 0}
+    amThanhKem: {fileID: 0}
+    cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Linh
     noiDung: "Im ngay! c\xE1i th\u1EE9 quan kh\u1ED1 r\xE1ch \xE1o \xF4m nh\u01B0
-      ng\u01B0\u01A1i d\xE1m h\u1ED7n x\u01B0\u1EE3c v\u1EDBi quan ph\u1EE7?"
+      ng\u01B0\u01A1i d\xE1m h\u1ED7n x\u01B0\u1EE3c v\u1EDBi quan ph\u1EE7? "
     anhCamXuc: {fileID: -8376191523616341519, guid: d0c76c4af10923246a9baffc28fbbc84, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "Cha m\u1EB9 ta ch\u1EBFt kh\xF4ng nh\u1EAFm m\u1EAFt ngay \u0111\xE2y
@@ -892,13 +931,23 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "V\u1EADy \xFD ng\u01B0\u01A1i l\xE0 ta sai? M\u1ED9t t\xEAn quan t\xE9p
       riu nh\u01B0 ng\u01B0\u01A1i \u0111ang d\u1EA1y ta c\xE1ch ph\xE1 \xE1n sao?
-      Ch\u1EE9ng c\u1EE9 r\xE0nh r\xE0nh: Kh\xF4ng c\xF3 ng\u01B0\u1EDDi ngo\xE0i
-      \u0111\u1ED9t nh\u1EADp, ch\u1EC9 c\xF3 hai x\xE1c ch\u1EBFt v\xE0 m\u1ED9t
-      m\xF3n n\u1EE3 kh\u1ED5ng l\u1ED3 m\xE0 l\xE3o ta \u0111\u1EC3 l\u1EA1i"
+      Ch\u1EE9ng c\u1EE9 r\xE0nh r\xE0nh. "
+    anhCamXuc: {fileID: -550938522607442945, guid: cc3ee6c71a203154882fb9509342201f, type: 3}
+    amThanhKem: {fileID: 0}
+    cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
+  - laNhanVatChinh: 0
+    npcID: Quan
+    noiDung: "Kh\xF4ng c\xF3 ng\u01B0\u1EDDi ngo\xE0i \u0111\u1ED9t nh\u1EADp, ch\u1EC9
+      c\xF3 hai x\xE1c ch\u1EBFt v\xE0 m\u1ED9t m\xF3n n\u1EE3 kh\u1ED5ng l\u1ED3
+      m\xE0 l\xE3o ta \u0111\u1EC3 l\u1EA1i"
     anhCamXuc: {fileID: -550938522607442945, guid: cc3ee6c71a203154882fb9509342201f, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon:
@@ -908,7 +957,7 @@ MonoBehaviour:
         xem x\xE9t l\u1EA1i t\xECnh l\xFD!"
       camXucMC: {fileID: 0}
       sfxMC: {fileID: 0}
-      idNguoiDapLai: Quan
+      idNguoiDapLai: quan
       npcDapLai: "T\xECnh l\xFD? Ng\u01B0\u01A1i l\xE0m quan m\xE0 ng\xE2y th\u01A1
         th\u1EBF sao? H\u1ECDa h\u1ED5 h\u1ECDa b\xEC nan h\u1ECDa c\u1ED1t. Tr\u01B0\u1EDBc
         m\u1EB7t ng\u01B0\u01A1i th\xEC h\xF2a thu\u1EADn, sau l\u01B0ng th\xEC n\u1EE3
@@ -923,32 +972,36 @@ MonoBehaviour:
         ra v\u1EBFt th\u01B0\u01A1ng \u0111\xF3"
       camXucMC: {fileID: 0}
       sfxMC: {fileID: 0}
-      idNguoiDapLai: Quan
+      idNguoiDapLai: quan
       npcDapLai: "L\xFAc \u0111i\xEAn l\xEAn th\xEC s\u1EE9c tr\xE2u c\u0169ng c\xF3.
         H\u1EAFn m\xE0i dao hay mua dao m\u1EDBi ta l\xE0m sao bi\u1EBFt? Ng\u01B0\u01A1i
         \u0111ang c\u1ED1 bi\u1EC7n h\u1ED9 cho k\u1EBB t\u1ED9i \u0111\u1ED3 \u0111\u1EA5y
         \xE0?"
       camXucNPC: {fileID: 0}
       sfxNPC: {fileID: 0}
-    - noiDungNut: "gay g\u1EAFt"
+    - noiDungNut: "Gay g\u1EAFt"
       mcTraLoi: "V\u1EE5 \xE1n ch\u01B0a kh\xE1m nghi\u1EC7m k\u1EF9 c\xE0ng m\xE0
         quan \u0111\xE3 v\u1ED9i k\u1EBFt lu\u1EADn. Ph\u1EA3i ch\u0103ng ng\xE0i
         \u0111ang mu\u1ED1n che gi\u1EA5u \u0111i\u1EC1u g\xEC"
       camXucMC: {fileID: 0}
       sfxMC: {fileID: 0}
-      idNguoiDapLai: Quan
+      idNguoiDapLai: quan
       npcDapLai: "To gan! Ng\u01B0\u01A1i d\xE1m vu kh\u1ED1ng m\u1EC7nh quan tri\u1EC1u
         \u0111\xECnh? N\u1EBFu kh\xF4ng n\u1EC3 t\xECnh ng\u01B0\u01A1i c\u0169ng
         mang \u0111ai \xE1o quan, ta \u0111\xE3 cho ng\u01B0\u01A1i \u0103n \u0111\xF2n
         roi n\xE1t th\u1ECBt r\u1ED3i"
       camXucNPC: {fileID: 0}
       sfxNPC: {fileID: 0}
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: dan_chuyen
     noiDung: "(L\xFD H\xE0o quay sang \u0111\xE1m l\xEDnh, ph\u1EA5t tay)"
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "V\u1EE5 \xE1n \u0111\xE3 r\xF5. Hung th\u1EE7 l\xE0 ch\u1ED3ng gi\u1EBFt
@@ -959,12 +1012,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "C\xE1c ng\u01B0\u1EDDi \u0111\u1ECBnh l\xE0m g\xEC?"
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "T\u1ECBch thu to\xE0n b\u1ED9 t\xE0i s\u1EA3n trong nh\xE0 \u0111\u1EC3
@@ -975,6 +1032,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 6532974345953923559, guid: 21113935d01a43648aacfd21a6c7ab26, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "K\u1EBB n\xE0o d\xE1m \u0111\u1ED9ng v\xE0o cha m\u1EB9 ta, ta li\u1EC1u
@@ -982,32 +1041,29 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "\xC1 \xE0, mu\u1ED1n ch\u1ED1ng ng\u01B0\u1EDDi thi h\xE0nh c\xF4ng
       v\u1EE5? Bao Thanh Long, ta nghi ng\u1EDD ng\u01B0\u01A1i c\u0169ng c\xF3 li\xEAn
-      quan \u0111\u1EBFn v\u1EE5 tham \xF4 n\xE0y c\u1EE7a cha ng\u01B0\u01A1i."
+      quan \u0111\u1EBFn v\u1EE5 tham \xF4 n\xE0y c\u1EE7a cha ng\u01B0\u01A1i. "
     anhCamXuc: {fileID: 4532469784274293886, guid: 7df3843dc00e8594f82bb867b413111e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "T\u1ED1t nh\u1EA5t l\xE0 ngoan ngo\xE3n, ta c\xF2n n\u1EC3 t\xECnh
       \u0111\u1ED3ng nghi\u1EC7p m\xE0 cho ng\u01B0\u01A1i t\u1EA1i ngo\u1EA1i \u0111i\u1EC1u
       tra. N\u1EBFu c\xF2n ngoan c\u1ED1, ta g\xF4 c\u1ED5 ng\u01B0\u01A1i v\xE0o
       ng\u1EE5c ngay l\u1EADp t\u1EE9c! Ng\u01B0\u1EDDi \u0111\xE2u, d\u1ECDn d\u1EB9p!"
-    anhCamXuc: {fileID: 0}
+    anhCamXuc: {fileID: 4532469784274293886, guid: 7df3843dc00e8594f82bb867b413111e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
-  - laNhanVatChinh: 0
-    npcID: dan_chuyen
-    noiDung: "(\u0110\xE1m l\xEDnh \xF9a v\xE0o, x\xF4 ng\xE3 Thanh Long, l\xF4i
-      x\xE1c cha m\u1EB9 anh \u0111i x\u1EC1nh x\u1EC7ch tr\xEAn n\u1EC1n \u0111\u1EA5t
-      l\u1EA1nh. Thanh Long b\u1EA5t l\u1EF1c nh\xECn theo, tay n\u1EAFm ch\u1EB7t
-      n\u1EAFm \u0111\u1EA5t d\xEDnh m\xE1u.)"
-    anhCamXuc: {fileID: 0}
-    amThanhKem: {fileID: 0}
-    cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
     npcID: Quan
     noiDung: "Kh\xF4n h\u1ED3n th\xEC lo m\xE0 ki\u1EBFm ti\u1EC1n tr\u1EA3 n\u1EE3
@@ -1015,6 +1071,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    idVatPhamYeuCau: 0
+    cauThoaiSauKhiNhan: 
   loiTuThoaiKetThuc:
   - "T\u1EF1 s\xE1t \u01B0? N\u1EE3 n\u1EA7n \u01B0? ... L\xFD H\xE0o, \xF4ng t\u01B0\u1EDFng
     ta m\xF9 sao?"
@@ -1023,6 +1081,8 @@ MonoBehaviour:
   - {fileID: 684560797}
   - {fileID: 1170738617}
   - {fileID: 917569392}
+  thongBaoPanel: {fileID: 0}
+  noiDungThongBao: {fileID: 0}
 --- !u!4 &313613627
 Transform:
   m_ObjectHideFlags: 0
@@ -1819,6 +1879,7 @@ MonoBehaviour:
   npcPortraitImage: {fileID: 1278836017}
   tocDoGo: 0.03
   dangHoiThoai: 0
+  inventory: {fileID: 0}
   databaseVatChung:
   - id: 1
     ten: "V\u1EBFt Ch\xE9m"
@@ -1845,7 +1906,7 @@ MonoBehaviour:
       l\xE0 ng\u01B0\u1EDDi quy\u1EC1n qu\xFD? "
     noiDungSuyLuan: "Mi\u1EBFng v\u1EA3i l\u1EE5a"
   - id: 4
-    ten: "L\u1EE5c So\xE1t"
+    ten: "Tr\xE2m V\xE0ng"
     icon: {fileID: 4614132807278718449, guid: 265494e99b3ca7943b2ed20d2f0e0e84, type: 3}
     moTa: "cu\u1ED1i c\xF9ng c\u0169ng t\xECm \u0111\u01B0\u1EE3c ch\u0103m c\xE0i
       t\xF3c n\xE0y"
@@ -3334,7 +3395,7 @@ GameObject:
   - component: {fileID: 917569394}
   - component: {fileID: 917569393}
   m_Layer: 0
-  m_Name: "Asset ch\u0103m c\xE0i t\xF3c"
+  m_Name: "Asset Tr\xE2m V\xE0ng"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6628,7 +6689,7 @@ GameObject:
   - component: {fileID: 1720568228}
   - component: {fileID: 1720568227}
   m_Layer: 5
-  m_Name: Tag_ChamCai
+  m_Name: Tag_TramVang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6793,7 +6854,7 @@ GameObject:
   - component: {fileID: 1865061967}
   - component: {fileID: 1865061969}
   m_Layer: 5
-  m_Name: btn_ChamCai
+  m_Name: btn_TramVang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6913,7 +6974,7 @@ GameObject:
   - component: {fileID: 1875759643}
   - component: {fileID: 1875759642}
   m_Layer: 5
-  m_Name: Text_ChamCai
+  m_Name: Text_TramVang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
