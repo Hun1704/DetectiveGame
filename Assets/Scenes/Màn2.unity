@@ -1474,7 +1474,8 @@ MonoBehaviour:
   eventID: cutsceneTiepTheo
   thoiGianCho: 0.5
   danhSachLoiThoai:
-  - noiDung: "Ph\u1EE7 T\xE2m Hoa l\u1EA1i xa hoa nh\u01B0 th\u1EBF n\xE0y sao? Ch\u1EB3ng
+  - characterID: 
+    noiDung: "Ph\u1EE7 T\xE2m Hoa l\u1EA1i xa hoa nh\u01B0 th\u1EBF n\xE0y sao? Ch\u1EB3ng
       tr\xE1ch L\xFD H\xE0o l\u1EA1i th\u01B0\u1EDDng xuy\xEAn lui t\u1EDBi n\u01A1i
       \u0111\xE2y"
     bieuCam: {fileID: 0}
@@ -2650,9 +2651,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9759577fba42c0c4c8c7c3328b20d3c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CutsceneManager
-  cutsceneID: "m\xE0n2"
+  cutsceneID: "M\xE0n2"
   sfxAudioSource: {fileID: 0}
   tiengGioCua: {fileID: 0}
+  tuBaObject: {fileID: 0}
   fadePanel: {fileID: 0}
   timeText: {fileID: 0}
   choiceContainer: {fileID: 0}
@@ -2678,6 +2680,7 @@ MonoBehaviour:
     cacLuaChon: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
+    kichHoatTuBaXuatHien: 0
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "Hi\u1EC7n t\u1EA1i trong ng\u01B0\u1EDDi ta ch\u1EC9 c\xF3 duy nh\u1EA5t
@@ -2687,6 +2690,7 @@ MonoBehaviour:
     cacLuaChon: []
     idVatPhamYeuCau: 4
     cauThoaiSauKhiNhan: 
+    kichHoatTuBaXuatHien: 0
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "H\u1EEB, m\u1EE5 gi\xE0 l\xF3a m\u1EAFt. B\xE0 nh\xECn b\u1ED9 d\u1EA1ng
@@ -2696,6 +2700,7 @@ MonoBehaviour:
     cacLuaChon: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
+    kichHoatTuBaXuatHien: 0
   - laNhanVatChinh: 0
     npcID: TuBa
     noiDung: "Ch\xE0... \u0110\u1ED3 t\u1ED1t, \u0111\u1ED3 t\u1ED1t! M\u1EDDi kh\xE1ch
@@ -2705,6 +2710,7 @@ MonoBehaviour:
     cacLuaChon: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
+    kichHoatTuBaXuatHien: 0
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "B\u1EDBt l\u1EDDi \u0111i. Ta h\u1ECFi b\xE0, t\xEAn quan tham L\xFD
@@ -2714,6 +2720,7 @@ MonoBehaviour:
     cacLuaChon: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
+    kichHoatTuBaXuatHien: 0
   - laNhanVatChinh: 0
     npcID: TuBa
     noiDung: "Quan L\xFD H\xE0o \u1EA5y \xE0? Ng\xE0i \u1EA5y l\xE0 kh\xE1ch VIP...
@@ -2724,6 +2731,7 @@ MonoBehaviour:
     cacLuaChon: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
+    kichHoatTuBaXuatHien: 0
   - laNhanVatChinh: 0
     npcID: NgocKhue
     noiDung: "B\xE0 Ch\u1EE7... \u0110\u1EEBng l\xE0m kh\xF3 ng\xE0i \u1EA5y. \u0110\u1EC3
@@ -2734,6 +2742,7 @@ MonoBehaviour:
     cacLuaChon: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
+    kichHoatTuBaXuatHien: 0
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "Ng\u1ECDc Khu\xEA? N\xE0ng ta v\u1EABn \u1EDF \u0111\xE2y sao? Ch\u1EAFc
@@ -2744,6 +2753,7 @@ MonoBehaviour:
     cacLuaChon: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
+    kichHoatTuBaXuatHien: 0
   loiTuThoaiKetThuc: []
   danhSachVatChung: []
   thongBaoPanel: {fileID: 137496286}
@@ -3145,7 +3155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneTeleport
   tenSceneTiepTheo: "M\xE0n 2-Ph\xF2ng Ng\u1ECDc Khu\xEA"
   tenDiemDen: "LoiVao_Ph\xF2ng Ng\u1ECDc Khu\xEA"
-  canSaveGame: 1
+  canSaveGame: 0
   laDauChapterMoi: 0
   chapterHienTai: 2
 --- !u!1 &1430821749 stripped
@@ -4213,7 +4223,7 @@ MonoBehaviour:
     moTa: "Cu\u1ED1i c\xF9ng c\u0169ng t\xECm \u0111\u01B0\u1EE3c c\xE2y tr\xE2m
       v\xE0ng n\xE0y"
     noiDungSuyLuan: 
-  - id: 1
+  - id: 5
     ten: ThuocAnThan
     icon: {fileID: 4426770109558884130, guid: 66b241a9d51de0a47a40e3449f211250, type: 3}
     moTa: 

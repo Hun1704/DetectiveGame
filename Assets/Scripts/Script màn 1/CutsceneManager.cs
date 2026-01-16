@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CutsceneManager : MonoBehaviour
 {
@@ -42,14 +43,29 @@ public class CutsceneManager : MonoBehaviour
         public AudioClip amThanhKem;
         public List<LuaChon> cacLuaChon;
 
+        // 🔥 [MỚI] Tích vào đây ở dòng thoại TRƯỚC KHI Tú Bà xuất hiện
+        [Header("🔥 KỊCH BẢN ĐẶC BIỆT")]
+        public bool kichHoatTuBaXuatHien = false;
+        public bool kichHoatTuBaNgatXiu = false;
+
         [Header("🔥 YÊU CẦU VẬT PHẨM")]
         public int idVatPhamYeuCau = 0;
         public string cauThoaiSauKhiNhan;
+
+        [Header("🔥 CHUYỂN CẢNH (FLASHBACK)")]
+        [Tooltip("Tích vào đây nếu muốn sau khi nói xong câu này thì chuyển Scene ngay.")]
+        public bool chuyenCanhSauCauNay = false;
+        [Tooltip("Tên Scene muốn chuyển tới (VD: Man3_QuaKhu).")]
+        public string tenSceneChuyenToi;
     }
 
     [Header("UI Màn hình đen & Chữ")]
     public CanvasGroup fadePanel;
     public GameObject timeText;
+
+    // 🔥 [MỚI] Màn che riêng cho đoạn Tú Bà xuất hiện (Tránh xung đột với fadePanel)
+    [Header("--- [MỚI] MÀN CHE TÚ BÀ ---")]
+    public CanvasGroup manCheTuBa;
 
     [Header("UI Lựa Chọn")]
     public Transform choiceContainer;
@@ -63,6 +79,10 @@ public class CutsceneManager : MonoBehaviour
     [Header("--- [MỚI] NGỌC KHUÊ NGỒI/ĐỨNG ---")]
     public GameObject ngocKhueNgoi;
     public GameObject ngocKhueDung;
+
+    // 🔥 [MỚI] Thêm Tú Bà vào đây để ẩn hiện
+    public GameObject tuBaObject;
+    public GameObject tuBaNgatXiu;
 
     [Header("Điểm đến & Đi về")]
     public Transform viTriDungQuan;
@@ -86,6 +106,12 @@ public class CutsceneManager : MonoBehaviour
     private bool dangChoVatPham = false;
     private int idVatPhamDangCan = 0;
 
+    // 🔥 [MỚI] Biến tạm để xử lý logic chờ nộp đồ
+    private int idDoDangCan = 0;
+
+    public bool IsPlaying { get; private set; }
+
+
     void Awake()
     {
         Instance = this;
@@ -102,23 +128,22 @@ public class CutsceneManager : MonoBehaviour
             {
                 Debug.Log($"[CutsceneManager] Sự kiện '{cutsceneID}' đã hoàn thành. Tắt hiển thị.");
 
-                // Tắt Collider (nếu có) để an toàn
                 if (GetComponent<Collider2D>() != null)
                     GetComponent<Collider2D>().enabled = false;
 
-                // Ẩn toàn bộ nhân vật
                 if (ngocKhueNgoi != null) ngocKhueNgoi.SetActive(false);
                 if (ngocKhueDung != null) ngocKhueDung.SetActive(false);
                 if (quan != null) quan.SetActive(false);
                 if (linh != null) linh.SetActive(false);
 
-                // Hiện vật chứng
+                // 🔥 [MỚI] Ẩn luôn Tú Bà nếu đã xong
+                if (tuBaObject != null) tuBaObject.SetActive(false);
+
                 HienTatCaVatChung();
 
-                // Tắt tiếng gió
                 if (tiengGioCua != null) tiengGioCua.TatVinhVien();
 
-                return; // DỪNG NGAY
+                return;
             }
         }
         // =========================================================
@@ -130,11 +155,8 @@ public class CutsceneManager : MonoBehaviour
         }
 
         if (sfxAudioSource == null) sfxAudioSource = GetComponent<AudioSource>();
-
-        // ĐÃ XÓA logic tự chạy BatDauCutscene() ở đây
     }
 
-    // Hàm gọi bắt đầu Cutscene (Sẽ được gọi từ script Trigger bên ngoài)
     public void BatDauCutscene()
     {
         StartCoroutine(QuyTrinhChuyenCanh());
@@ -142,13 +164,10 @@ public class CutsceneManager : MonoBehaviour
 
     IEnumerator QuyTrinhChuyenCanh()
     {
-        // ĐÃ XÓA việc khóa PlayerMovement ở đây
-
         if (InventoryManager.Instance != null)
             yield return new WaitUntil(() => !InventoryManager.Instance.dangHoiThoai);
 
-        // --- PHẦN 1: MÀN HÌNH ĐEN ---
-        // Đã xóa điều kiện kiểm tra !dungTriggerDeKichHoat
+        // --- PHẦN 1: MÀN HÌNH ĐEN (Giữ nguyên code cũ của bạn) ---
         if (fadePanel != null)
         {
             fadePanel.gameObject.SetActive(true);
@@ -170,15 +189,12 @@ public class CutsceneManager : MonoBehaviour
         // --- PHẦN 2: NHÂN VẬT XUẤT HIỆN ---
         if (quan != null) quan.SetActive(true);
         if (linh != null) linh.SetActive(true);
-
-        // THIẾT LẬP NGỒI/ĐỨNG BAN ĐẦU
         if (ngocKhueNgoi != null) ngocKhueNgoi.SetActive(true);
         if (ngocKhueDung != null) ngocKhueDung.SetActive(false);
 
         // --- PHẦN 3: DI CHUYỂN VÀO ---
         if (quan != null && viTriDungQuan != null)
             StartCoroutine(DiChuyenNhanVat(quan, viTriDungQuan));
-
         if (linh != null && viTriDungLinh != null)
             yield return StartCoroutine(DiChuyenNhanVat(linh, viTriDungLinh));
 
@@ -187,12 +203,49 @@ public class CutsceneManager : MonoBehaviour
         for (int i = 0; i < kichBanHoiThoai.Count; i++)
         {
             DongHoiThoai dong = kichBanHoiThoai[i];
+            if (dong.kichHoatTuBaXuatHien)
+            {
+                // 1. Fade Tối (Dùng màn che riêng)
+                if (manCheTuBa != null) yield return StartCoroutine(FadeCanvasGroup(manCheTuBa, 0, 1, 1f));
+                else yield return new WaitForSeconds(1f);
+
+                // 2. Tráo đổi diễn viên trong bóng tối
+                if (ngocKhueNgoi != null) ngocKhueNgoi.SetActive(false);
+                if (ngocKhueDung != null) ngocKhueDung.SetActive(false);
+
+                // Hiện Tú Bà
+                if (tuBaObject != null) tuBaObject.SetActive(true);
+
+                // Chờ 1 giây cho kịch tính
+                yield return new WaitForSeconds(1f);
+
+                // 3. Fade Sáng lại
+                if (manCheTuBa != null) yield return StartCoroutine(FadeCanvasGroup(manCheTuBa, 1, 0, 1f));
+            }
+            if (dong.kichHoatTuBaNgatXiu)
+            {   
+                // Ẩn bà đứng, hiện bà nằm
+                if (tuBaObject != null) tuBaObject.SetActive(false);
+                if (tuBaNgatXiu != null) tuBaNgatXiu.SetActive(true);
+
+                // Rung màn hình nhẹ hoặc âm thanh "Bịch" (Tùy chọn)
+                Debug.Log("Tú Bà đã ngất!");
+            }
+            // ==========================================================
+
             HienThiHoiThoai(dong);
 
+            // Xử lý yêu cầu vật phẩm
             if (dong.idVatPhamYeuCau > 0)
             {
                 dangChoVatPham = true;
                 idVatPhamDangCan = dong.idVatPhamYeuCau;
+
+                // 🔥 [MỚI] Đồng bộ ID để hàm CheckVatPhamNopVao sử dụng
+                idDoDangCan = dong.idVatPhamYeuCau;
+                Debug.Log("Đang dừng chờ người chơi kéo vật phẩm ID: " + idDoDangCan);
+
+                // 🔥 VÒNG LẶP CHỜ: Tại đây game sẽ dừng lại chờ bạn kéo đồ vào NPC
                 while (dangChoVatPham) yield return null;
 
                 if (!string.IsNullOrEmpty(dong.cauThoaiSauKhiNhan))
@@ -214,6 +267,42 @@ public class CutsceneManager : MonoBehaviour
                 daChonXong = false;
                 StartCoroutine(HieuUngHienNut(dong.cacLuaChon));
                 yield return new WaitUntil(() => daChonXong);
+            }
+            if (dong.chuyenCanhSauCauNay)
+            {
+                Debug.Log($"[CutsceneManager] Chuẩn bị chuyển sang scene: {dong.tenSceneChuyenToi}");
+
+                // 1. Lưu game (Đánh dấu đã xong cutscene này để lần sau quay lại không bị xem lại)
+                if (SaveGameManager.Instance != null && !string.IsNullOrEmpty(cutsceneID))
+                {
+                    SaveGameManager.Instance.CompleteEvent(cutsceneID);
+                    SaveGameManager.Instance.SaveGame(SaveGameManager.Instance.currentSlot);
+                }
+
+                // 2. Fade Màn hình
+                if (fadePanel != null)
+                {
+                    // Đảm bảo bật lên và chặn raycast
+                    fadePanel.gameObject.SetActive(true);
+                    fadePanel.blocksRaycasts = true;
+                    yield return StartCoroutine(FadeCanvasGroup(fadePanel, 0, 1, 2f)); // Fade trong 2 giây
+                }
+                else
+                {
+                    yield return new WaitForSeconds(1f);
+                }
+
+                // 3. Load Scene Mới
+                if (!string.IsNullOrEmpty(dong.tenSceneChuyenToi))
+                {
+                    SceneManager.LoadScene(dong.tenSceneChuyenToi);
+                }
+                else
+                {
+                    Debug.LogError("[CutsceneManager] Bạn quên điền tên Scene chuyển tới!");
+                }
+
+                yield break; // 🔥 DỪNG LUÔN SCRIPT, KHÔNG CHẠY CÁC DÒNG BÊN DƯỚI NỮA
             }
         }
 
@@ -254,23 +343,73 @@ public class CutsceneManager : MonoBehaviour
         // =========================================================
         // 2. LƯU LẠI LÀ ĐÃ XONG
         // =========================================================
-        if (!string.IsNullOrEmpty(cutsceneID) && SaveGameManager.Instance != null)
+        if (SaveGameManager.Instance != null && !string.IsNullOrEmpty(cutsceneID))
         {
             SaveGameManager.Instance.CompleteEvent(cutsceneID);
-            Debug.Log($"Đã lưu trạng thái hoàn thành: {cutsceneID}");
+            Debug.Log($"[CHECK] Đã đánh dấu hoàn thành sự kiện: {cutsceneID}");
+
+            // 2. 🔥 BẮT BUỘC: GHI NGAY XUỐNG Ổ CỨNG (AUTO SAVE)
+            SaveGameManager.Instance.SaveGame(SaveGameManager.Instance.currentSlot);
+            Debug.Log($"[CHECK] Đã Auto-Save xuống file Slot {SaveGameManager.Instance.currentSlot}");
+        }
+        else
+        {
+            Debug.LogError($"[LỖI NGHIÊM TRỌNG] CutsceneID bị TRỐNG! Game không thể lưu trạng thái này.");
         }
 
         // --- KẾT THÚC ---
+        if (tuBaObject != null) tuBaObject.SetActive(false); // 🔥 [MỚI] Ẩn Tú Bà khi hết cutscene
         if (tiengGioCua != null) tiengGioCua.TatVinhVien();
         if (SaveGameManager.Instance != null) SaveGameManager.Instance.daKichHoatHienVatChung = true;
         HienTatCaVatChung();
-
-        // ĐÃ XÓA việc mở khóa PlayerMovement ở đây
     }
 
-    // --- CÁC HÀM HỖ TRỢ GIỮ NGUYÊN ---
+    // --- 🔥 [MỚI] HÀM NÀY ĐỂ NPCItemReceiver GỌI KHI CÓ NGƯỜI THẢ ĐỒ VÀO ---
+    public bool CheckVatPhamNopVao(int itemID)
+    {
+        // Nếu không đang chờ, hoặc đưa sai đồ
+        if (!dangChoVatPham || itemID != idDoDangCan)
+        {
+            if (InventoryManager.Instance != null)
+            {
+                InventoryManager.Instance.ShowTooltip("Sai vật phẩm rồi!", Input.mousePosition);
+                Invoke(nameof(AnTooltip), 2f);
+            }
+            return false;
+        }
+
+        // NẾU ĐÚNG ĐỒ
+        if (InventoryManager.Instance != null)
+            InventoryManager.Instance.RemoveItemByID(itemID); // Trừ đồ
+
+        StartCoroutine(HienThongBao("Đã đưa vật phẩm thành công!"));
+
+        dangChoVatPham = false; // 🔥 QUAN TRỌNG: Ngắt vòng lặp while để hội thoại chạy tiếp
+        idVatPhamDangCan = 0;
+
+        return true;
+    }
+
+    // 🔥 [MỚI] Hàm hỗ trợ Fade riêng cho màn che Tú Bà
+    IEnumerator FadeCanvasGroup(CanvasGroup cg, float start, float end, float duration)
+    {
+        cg.gameObject.SetActive(true);
+        float t = 0;
+        while (t < 1)
+        {
+            t += Time.deltaTime / duration;
+            cg.alpha = Mathf.Lerp(start, end, t);
+            yield return null;
+        }
+        cg.alpha = end;
+        if (end == 0) cg.blocksRaycasts = false;
+        else cg.blocksRaycasts = true;
+    }
+
+    // --- CÁC HÀM HỖ TRỢ GIỮ NGUYÊN (NopVatPham cũ có thể giữ hoặc bỏ, nhưng tôi giữ lại để không lỗi code cũ) ---
     public bool NopVatPham(int idVatPham)
     {
+        // Logic cũ này có thể ít dùng nếu bạn chuyển sang dùng CheckVatPhamNopVao ở trên
         if (!dangChoVatPham || idVatPham != idVatPhamDangCan)
         {
             InventoryManager.Instance.ShowTooltip("Sai vật phẩm rồi!", Input.mousePosition);
@@ -285,6 +424,7 @@ public class CutsceneManager : MonoBehaviour
     }
 
     void AnTooltip() { InventoryManager.Instance.HideTooltip(); }
+
     IEnumerator HienThongBao(string noiDung)
     {
         if (thongBaoPanel)

@@ -53,34 +53,37 @@ public class StoryTrigger : MonoBehaviour
     {
         daKichHoat = true;
 
-        // 1. Phát âm thanh Sốc (Giữ nguyên logic cũ)
-        if (audioSource != null && amThanhSoc != null)
-        {
+        if (audioSource && amThanhSoc)
             audioSource.PlayOneShot(amThanhSoc);
-        }
 
-        // 2. Đợi âm thanh ngấm vào người chơi
         yield return new WaitForSeconds(thoiGianChoAmThanh);
 
-        // 3. 🔥 LOGIC MỚI: Chạy vòng lặp từng câu thoại
+        if (InventoryManager.Instance == null)
+        {
+            Debug.LogError("❌ InventoryManager chưa tồn tại!");
+            yield break;
+        }
+
         foreach (var cau in danhSachLoiThoai)
         {
-            // Gọi hiển thị (truyền nội dung và biểu cảm của câu đó vào)
-            InventoryManager.Instance.ShowDialogue(cau.noiDung, cau.bieuCam, tocDoRieng);
+            // ⛔ Chờ nếu hệ thống đang bận
+            yield return new WaitUntil(() =>
+                !InventoryManager.Instance.dangHoiThoai &&
+                !CutsceneManager.Instance.IsPlaying
+            );
 
-            yield return null; // Đợi 1 frame cho UI bật lên
+            InventoryManager.Instance.ShowDialogue(
+                cau.noiDung,
+                cau.bieuCam,
+                tocDoRieng
+            );
 
-            // Chờ người chơi đọc xong câu này mới qua câu kia
             yield return new WaitUntil(() => !InventoryManager.Instance.dangHoiThoai);
         }
 
-        // 4. Sau khi nói hết danh sách -> Gọi CutsceneManager
         if (cutsceneManager != null)
-        {
             cutsceneManager.BatDauCutscene();
-        }
 
-        // 5. Lưu game
         SaveGameManager.Instance.CompleteEvent(eventID);
     }
 }

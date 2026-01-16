@@ -1,39 +1,57 @@
 ﻿using UnityEngine;
-using UnityEngine.UI; // Cần dòng này để chỉnh UI
+using UnityEngine.UI;
+using UnityEngine.EventSystems; // 1. Thêm thư viện này
 
-public class RecipeZoom : MonoBehaviour
+// 2. Thêm IPointerClickHandler vào đây
+public class RecipeZoom : MonoBehaviour, IPointerClickHandler
 {
     [Header("Cài đặt UI")]
-    public GameObject recipePanel;   // Cái khung UI đen mờ
-    public Image displayImage;       // Cái ảnh để hiển thị công thức
-    public Sprite recipeSprite;      // Ảnh công thức của vật phẩm này
+    public GameObject recipePanel;   
+    public Image displayImage;       
+    public Sprite recipeSprite;      
 
     [Header("Cài đặt Nút Đóng")]
-    public Button closeButton;       // Nút X để tắt
+    public Button closeButton;       
 
     void Start()
     {
-        // Gán sự kiện cho nút đóng (nếu chưa gán ở inspector)
         if (closeButton != null)
         {
-            closeButton.onClick.RemoveAllListeners(); // Xóa sự kiện cũ tránh lỗi
+            closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(ClosePanel);
+        }
+        
+        // Tự động thêm Collider nếu quên (Chỉ chạy khi là Sprite, không phải UI)
+        if (GetComponent<Collider2D>() == null && GetComponent<RectTransform>() == null)
+        {
+            gameObject.AddComponent<BoxCollider2D>();
         }
     }
 
-    void OnMouseDown()
+    // 3. Thay OnMouseDown bằng hàm này
+    public void OnPointerClick(PointerEventData eventData)
     {
         ShowRecipe();
     }
 
     void ShowRecipe()
     {
-        recipePanel.SetActive(true);      // Bật bảng lên
-        displayImage.sprite = recipeSprite; // Đổi ảnh thành công thức này
+        if (recipePanel != null && displayImage != null)
+        {
+            recipePanel.SetActive(true);      
+            displayImage.sprite = recipeSprite; 
+            
+            // Đưa panel lên trên cùng để không bị che
+            recipePanel.transform.SetAsLastSibling(); 
+        }
+        else
+        {
+            Debug.LogError("Chưa kéo Recipe Panel hoặc Display Image vào script!");
+        }
     }
 
     void ClosePanel()
     {
-        recipePanel.SetActive(false);     // Tắt bảng đi
+        if (recipePanel != null) recipePanel.SetActive(false);     
     }
 }

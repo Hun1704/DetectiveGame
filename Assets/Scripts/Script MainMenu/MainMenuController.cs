@@ -114,6 +114,12 @@ public class MainMenuController : MonoBehaviour
     {
         ShowPanel(settingsPanel);
     }
+    void OnEnable()
+    {
+        if (backgroundMusic)
+            backgroundMusic.volume = 1f;
+    }
+
 
     public void OnQuitClick()
     {
@@ -122,6 +128,15 @@ public class MainMenuController : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
+    public void LoadSlot(int slot)
+    {
+        if (!SaveGameManager.Instance.HasSave(slot)) return;
+
+        SaveGameManager.Instance.currentSlot = slot;
+        gameObject.SetActive(false); // ⛔ khóa menu ngay
+        SaveGameManager.Instance.LoadGame(slot);
+    }
+
     public void LoadSlot1()
     {
         if (SaveGameManager.Instance.HasSave(1))

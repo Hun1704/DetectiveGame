@@ -3,15 +3,14 @@
 public class NPCItemReceiver : MonoBehaviour
 {
     [Header("Cấu hình")]
-    public string tenNPC = "Quan Huyện";
+    public string tenNPC = "Tú Bà";
 
     void Start()
     {
-        // Đảm bảo NPC có Collider để chuột có thể nhận diện
         if (GetComponent<Collider2D>() == null)
         {
             var col = gameObject.AddComponent<BoxCollider2D>();
-            col.isTrigger = true; // Để chuột đi xuyên qua được
+            col.isTrigger = true;
         }
     }
 
@@ -20,10 +19,12 @@ public class NPCItemReceiver : MonoBehaviour
     {
         Debug.Log(tenNPC + " nhận được vật phẩm ID: " + itemID);
 
-        // Chuyển tiếp cho CutsceneManager kiểm tra
+        // Gọi sang CutsceneManager để kiểm tra
         if (CutsceneManager.Instance != null)
         {
-            return CutsceneManager.Instance.NopVatPham(itemID);
+            // Hàm CheckVatPhamNopVao sẽ trả về True nếu đúng đồ đang cần
+            bool ketQua = CutsceneManager.Instance.CheckVatPhamNopVao(itemID);
+            return ketQua;
         }
 
         return false;

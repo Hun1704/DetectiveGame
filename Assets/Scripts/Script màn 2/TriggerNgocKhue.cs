@@ -2,31 +2,48 @@
 
 public class CutsceneTrigger : MonoBehaviour
 {
-    // Biến này để đảm bảo cutscene chỉ kích hoạt 1 lần duy nhất
+    [Header("Cấu hình (BẮT BUỘC)")]
+    [Tooltip("Copy y hệt cái ID bên trong CutsceneManager dán vào đây")]
+    public string cutsceneID;
+
     private bool daKichHoat = false;
+
+    void Start()
+    {
+        // 1. Kiểm tra ngay khi vào màn chơi
+        // Nếu sự kiện này đã xong rồi thì tự hủy Trigger này luôn -> Không bao giờ kích hoạt lại
+        if (SaveGameManager.Instance != null && !string.IsNullOrEmpty(cutsceneID))
+        {
+            if (SaveGameManager.Instance.CheckEvent(cutsceneID))
+            {
+                Destroy(gameObject); // Xóa vùng kích hoạt
+            }
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 1. Kiểm tra: Chưa kích hoạt lần nào AND Người chạm vào là Player
-        if (!daKichHoat && other.CompareTag("Player"))
-        {
-            Debug.Log("Player đã bước vào vùng kích hoạt!");
+        if (daKichHoat) return;
 
-            // 2. Khóa lại ngay lập tức để không bị lặp
+        if (other.CompareTag("Player"))
+        {
+            // 2. Kiểm tra lần cuối (cho chắc ăn) trước khi chạy
+            if (SaveGameManager.Instance != null && !string.IsNullOrEmpty(cutsceneID))
+            {
+                if (SaveGameManager.Instance.CheckEvent(cutsceneID))
+                {
+                    Destroy(gameObject);
+                    return;
+                }
+            }
+
+            Debug.Log("Player đã bước vào vùng kích hoạt: " + cutsceneID);
             daKichHoat = true;
 
-            // 3. Gọi lệnh bắt đầu bên CutsceneManager
             if (CutsceneManager.Instance != null)
             {
                 CutsceneManager.Instance.BatDauCutscene();
             }
-            else
-            {
-                Debug.LogError("Lỗi: Không tìm thấy CutsceneManager trong Scene!");
-            }
-
-            // 4. (Tùy chọn) Tự hủy object trigger này đi cho nhẹ game
-            // Destroy(gameObject); 
         }
     }
 }

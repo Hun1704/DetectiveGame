@@ -135,36 +135,65 @@ public class MixingManager : MonoBehaviour
 
     // --- HÀM 4: LẤY THUỐC (Gán vào nút Cái Tô) ---
     // Giữ nguyên các phần trên, chỉ chú ý hàm ClickVaoCaiTo
+    // --- COPY ĐÈ ĐOẠN NÀY VÀO MixingManager.cs ---
+
     public void ClickVaoCaiTo()
     {
+        // Nếu chưa nấu xong thì bấm không có tác dụng
         if (!daNauXong) return;
 
-        // TRƯỜNG HỢP 1: LẤY THUỐC
+        // ====================================================
+        // TRƯỜNG HỢP 1: PHA CHẾ THÀNH CÔNG (Thuốc An Thần)
+        // ====================================================
         if (ketQuaPhaChe == 1)
         {
-            HienHopThoai("Hệ Thống", "Bạn nhận được [Bát Thuốc An Thần]");
+            Debug.Log("MixingManager: Thu hoạch thuốc thành công!");
 
-            // --- GỌI SANG INVENTORY ---
             if (InventoryManager.Instance != null)
             {
-                // Tên "ThuocAnThan" này BẮT BUỘC PHẢI TRÙNG KHỚP với tên trong Database ở Bước 3 dưới đây
-                InventoryManager.Instance.AddItem(
-                    "ThuocAnThan",
+                // 1. Thêm thuốc vào túi đồ
+                // LƯU Ý: Bạn phải chắc chắn đã thêm item ID 99 tên "ThuocAnThan" vào Database trong Inspector
+                InventoryManager.Instance.AddItemByNameWithDatabaseCheck(
+                    "Thuốc An Thần",
                     toThanhCong,
                     "Một bát thuốc an thần sắc đúng vị, có mùi thơm nhẹ của Tâm Sen."
                 );
-            }
-            else
-            {
-                Debug.LogError("LỖI: Không tìm thấy InventoryManager trong Scene!");
-            }
-            // ---------------------------
 
-            imageCaiTo.gameObject.SetActive(false); // Ẩn tô đi
+                // 2. Nhân vật chính tự thoại (Thông báo cho người chơi biết bước tiếp theo)
+                // Hàm ShowDialogue chỉ nhận 1 tham số là nội dung (vì mặc định là Player nói)
+                InventoryManager.Instance.ShowDialogue("Cuối cùng cũng xong. Phải mang ngay cho Ngọc Khuê mới được.");
+
+                // 3. Đánh dấu sự kiện "Đã nấu xong" để Ngọc Khuê hiện nút nói chuyện
+                if (SaveGameManager.Instance != null)
+                {
+                    SaveGameManager.Instance.CompleteEvent("da_nau_thuoc_xong");
+
+                    // Lưu game ngay lập tức để tránh lỗi mất dữ liệu nếu tắt game
+                    SaveGameManager.Instance.SaveGame(SaveGameManager.Instance.currentSlot);
+
+                    Debug.Log("MixingManager: Đã lưu sự kiện 'da_nau_thuoc_xong'");
+                }
+            }
+
+            // 4. Ẩn cái tô đi (Để người chơi không bấm được nữa)
+            if (imageCaiTo != null)
+                imageCaiTo.gameObject.SetActive(false);
+
+            // 5. Tắt giao diện bàn pha chế (Cho nhân vật di chuyển)
+            TableTrigger table = FindFirstObjectByType<TableTrigger>();
+            if (table != null)
+                table.DongBan();
         }
+
+        // ====================================================
+        // TRƯỜNG HỢP 2: THẤT BẠI (Có độc, có rượu hoặc sai công thức)
+        // ====================================================
         else
         {
+            // Dùng hàm hiện thoại nội bộ của MixingManager (hiện ở góc màn hình pha chế)
             HienHopThoai("Nhân Vật Chính", "Thứ này hỏng rồi, đổ đi làm lại thôi.");
+
+            // Tự động reset lại nguyên liệu sau 1 giây
             Invoke(nameof(ResetManChoi), 1.0f);
         }
     }

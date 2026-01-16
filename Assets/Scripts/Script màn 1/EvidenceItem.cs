@@ -24,19 +24,35 @@ public class EvidenceItem : MonoBehaviour
 
     void Start()
     {
-        GetComponent<Collider2D>().isTrigger = true;
+        // --- SỬA ĐOẠN NÀY ---
 
-        // --- BƯỚC 1: KIỂM TRA ĐÃ NHẶT CHƯA ---
+        // 1. Thử lấy Collider ra
+        Collider2D col = GetComponent<Collider2D>();
+
+        // 2. Nếu chưa có (null) thì tự động thêm BoxCollider2D vào
+        if (col == null)
+        {
+            Debug.LogWarning($"GameObject '{gameObject.name}' thiếu Collider2D! Đang tự động thêm vào...");
+            col = gameObject.AddComponent<BoxCollider2D>();
+        }
+
+        // 3. Set là Trigger
+        col.isTrigger = true;
+        // --------------------
+
+        // --- PHẦN LOGIC CŨ GIỮ NGUYÊN ---
+
+        // BƯỚC 1: KIỂM TRA ĐÃ NHẶT CHƯA
         if (SaveGameManager.Instance != null)
         {
             if (SaveGameManager.Instance.vatChungDaNhat.Contains(idVatChung))
             {
-                Destroy(gameObject); // Đã nhặt rồi thì xóa khỏi map ngay
+                Destroy(gameObject);
                 return;
             }
         }
 
-        // --- BƯỚC 2: LOAD DỮ LIỆU TỪ INVENTORY ---
+        // BƯỚC 2: LOAD DỮ LIỆU TỪ INVENTORY
         if (InventoryManager.Instance != null)
         {
             var data = InventoryManager.Instance.GetVatChungDataByID(idVatChung);
@@ -44,14 +60,16 @@ public class EvidenceItem : MonoBehaviour
             {
                 tenVatChung = data.ten;
                 suyNghiCuaNhanVat = data.moTa;
-                // Nếu không có nội dung suy luận riêng thì dùng mô tả làm tạm
                 noiDungSuyLuan = string.IsNullOrEmpty(data.noiDungSuyLuan) ? data.moTa : data.noiDungSuyLuan;
             }
             else
             {
-                Debug.LogError($"LỖI: ID {idVatChung} chưa được thêm vào Database của InventoryManager tại Scene này!");
-                // Tự hủy để tránh lỗi game nếu quên nhập data
-                gameObject.SetActive(false);
+                // Tắt cảnh báo lỗi đỏ nếu quên nhập data, chỉ ẩn đi thôi
+                if (SaveGameManager.Instance != null && !SaveGameManager.Instance.vatChungDaNhat.Contains(idVatChung))
+                {
+                    // Chỉ log warning nếu chưa nhặt
+                    // Debug.LogWarning($"Lỗi nhẹ: ID {idVatChung} chưa có trong Database Inventory.");
+                }
             }
         }
     }

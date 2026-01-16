@@ -14,32 +14,26 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public bool enableScale = true;
     public float hoverScale = 1.1f; // Phóng to 10%
 
+    private Vector3 originalScale;
+
     void Start()
     {
-        // Tự động tìm TextMeshPro bên trong nút này hoặc con của nó
+        originalScale = transform.localScale;
         btnText = GetComponentInChildren<TextMeshProUGUI>();
-
-        if (btnText != null)
-        {
-            btnText.color = normalColor; // Đặt màu ban đầu
-        }
+        if (btnText) btnText.color = normalColor;
     }
 
-    // Khi chuột bay vào vùng của nút
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (btnText != null) btnText.color = hoverColor;
-
+        if (btnText) btnText.color = hoverColor;
         if (enableScale)
-            transform.localScale = Vector3.one * hoverScale;
+            transform.localScale = originalScale * hoverScale;
     }
 
-    // Khi chuột rời khỏi nút
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (btnText != null) btnText.color = normalColor;
-
+        if (btnText) btnText.color = normalColor;
         if (enableScale)
-            transform.localScale = Vector3.one;
+            transform.localScale = originalScale;
     }
 }

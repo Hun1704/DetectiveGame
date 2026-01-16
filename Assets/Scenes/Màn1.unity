@@ -511,11 +511,13 @@ MonoBehaviour:
   eventID: intro_man_1
   thoiGianCho: 0.5
   danhSachLoiThoai:
-  - noiDung: "M\u01B0a l\u1EDBn qu\xE1... Cu\u1ED1i c\xF9ng c\u0169ng v\u1EC1 \u0111\u1EBFn
+  - characterID: 
+    noiDung: "M\u01B0a l\u1EDBn qu\xE1... Cu\u1ED1i c\xF9ng c\u0169ng v\u1EC1 \u0111\u1EBFn
       nh\xE0. Kh\xF4ng bi\u1EBFt cha m\u1EB9 \u0111\xE3 ng\u1EE7 ch\u01B0a?"
     bieuCam: {fileID: 0}
     sfxKemTheo: {fileID: 0}
-  - noiDung: "L\u1EA1 th\u1EADt. Gi\xF3 l\u1EDBn th\u1EBF n\xE0y m\xE0 c\u1ED5ng
+  - characterID: 
+    noiDung: "L\u1EA1 th\u1EADt. Gi\xF3 l\u1EDBn th\u1EBF n\xE0y m\xE0 c\u1ED5ng
       ng\xF5 l\u1EA1i m\u1EDF toang? C\xF3 v\u1EBFt tr\u01B0\u1EE3t ch\xE2n tr\xEAn
       n\u1EC1n \u0111\u1EA5t..."
     bieuCam: {fileID: 0}
@@ -768,6 +770,7 @@ MonoBehaviour:
   tiengGioCua: {fileID: 993168573}
   fadePanel: {fileID: 272043623}
   timeText: {fileID: 1262978761}
+  manCheTuBa: {fileID: 0}
   choiceContainer: {fileID: 2038703345}
   choiceButtonPrefab: {fileID: 8012488246747917166, guid: c9ae964d643169645a4e1ae579b97f33, type: 3}
   quan: {fileID: 44138425}
@@ -775,6 +778,8 @@ MonoBehaviour:
   tocDoDiChuyen: 3
   ngocKhueNgoi: {fileID: 0}
   ngocKhueDung: {fileID: 0}
+  tuBaObject: {fileID: 0}
+  tuBaNgatXiu: {fileID: 0}
   viTriDungQuan: {fileID: 1523994739}
   viTriDungLinh: {fileID: 1617199361}
   loiRaQuan: {fileID: 1912030877}
@@ -787,6 +792,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 3103107032202501148, guid: 70c37cf473a44a54fa052463133eb927, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -795,6 +802,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -806,6 +815,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 3103107032202501148, guid: 70c37cf473a44a54fa052463133eb927, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
@@ -815,6 +826,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: -5920170677128127979, guid: c7dd7826c7dd68247bd7aea3fa177303, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -824,6 +837,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -832,6 +847,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -843,6 +860,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 2549212463485757873, guid: bd8a075b59f92e54786a355f57d1d53e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
@@ -851,6 +870,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: -5920170677128127979, guid: c7dd7826c7dd68247bd7aea3fa177303, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -862,6 +883,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 4532469784274293886, guid: 7df3843dc00e8594f82bb867b413111e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
@@ -870,6 +893,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -882,6 +907,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -893,6 +920,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 2549212463485757873, guid: bd8a075b59f92e54786a355f57d1d53e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
@@ -903,6 +932,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
@@ -913,6 +944,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -922,6 +955,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: -8376191523616341519, guid: d0c76c4af10923246a9baffc28fbbc84, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
@@ -931,6 +966,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -941,6 +978,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: -550938522607442945, guid: cc3ee6c71a203154882fb9509342201f, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -992,6 +1031,8 @@ MonoBehaviour:
         roi n\xE1t th\u1ECBt r\u1ED3i"
       camXucNPC: {fileID: 0}
       sfxNPC: {fileID: 0}
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -1000,6 +1041,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -1012,6 +1055,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
@@ -1020,6 +1065,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -1032,6 +1079,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 6532974345953923559, guid: 21113935d01a43648aacfd21a6c7ab26, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 1
@@ -1041,6 +1090,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -1051,6 +1102,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 4532469784274293886, guid: 7df3843dc00e8594f82bb867b413111e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -1062,6 +1115,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 4532469784274293886, guid: 7df3843dc00e8594f82bb867b413111e, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   - laNhanVatChinh: 0
@@ -1071,6 +1126,8 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
   loiTuThoaiKetThuc:
@@ -1294,9 +1351,10 @@ MonoBehaviour:
     cauThoaiKhiDung: "N\xE9t ch\u1EEF nghi\xEAng ph\u1EA3i, m\u1EF1c c\xF2n ch\u01B0a
       kh\xF4. \u0110\xE2y l\xE0 t\u1EDD gi\u1EA5y n\u1EE3 \u0111\u01B0\u1EE3c vi\u1EBFt
       v\u1ED9i \u0111\u1EC3 vu kh\u1ED1ng."
-  - noiDung: "\u0111\xE1"
+  - noiDung: "M\u1EA3nh l\u1EE5a th\u01B0\u1EE3ng h\u1EA1ng c\u1EE7a Ph\u1EE7 T\xE2m
+      Hoa. "
     idDoiChieu: 3
-    cauThoaiKhiDung: 
+    cauThoaiKhiDung: "Hung th\u1EE7 l\xE0 k\u1EBB quy\u1EC1n qu\xFD, gi\xE0u c\xF3"
   tongSoVatChungCanTim: 3
   cauThoaiDuManhMoi: "\u0110\xE3 \u0111\u1EE7 c\xE1c m\u1EA3nh manh m\u1ED1i...\n\u0110\xE3
     \u0111\u1EBFn l\xFAc gh\xE9p ch\xFAng l\u1EA1i \u0111\u1EC3 \u0111\u01B0a ra
@@ -2467,8 +2525,8 @@ MonoBehaviour:
   guiVaoMindPalace: 1
   nutVatChung: {fileID: 1653972131}
   textHienThi: {fileID: 2059598427}
-  kichHoatCutscene: 0
   boQuanLyCutscene: {fileID: 0}
+  kichHoatCutscene: 0
 --- !u!1 &685712946
 GameObject:
   m_ObjectHideFlags: 0
@@ -3417,8 +3475,8 @@ MonoBehaviour:
   guiVaoMindPalace: 0
   nutVatChung: {fileID: 1865061969}
   textHienThi: {fileID: 1875759642}
-  kichHoatCutscene: 0
   boQuanLyCutscene: {fileID: 0}
+  kichHoatCutscene: 0
 --- !u!61 &917569394
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4055,8 +4113,8 @@ MonoBehaviour:
   guiVaoMindPalace: 1
   nutVatChung: {fileID: 616454841}
   textHienThi: {fileID: 1036453002}
-  kichHoatCutscene: 0
   boQuanLyCutscene: {fileID: 0}
+  kichHoatCutscene: 0
 --- !u!1 &1036453000
 GameObject:
   m_ObjectHideFlags: 0
@@ -4644,8 +4702,8 @@ MonoBehaviour:
   guiVaoMindPalace: 1
   nutVatChung: {fileID: 600255121}
   textHienThi: {fileID: 861519983}
-  kichHoatCutscene: 0
   boQuanLyCutscene: {fileID: 0}
+  kichHoatCutscene: 0
 --- !u!61 &1170738619
 BoxCollider2D:
   m_ObjectHideFlags: 0

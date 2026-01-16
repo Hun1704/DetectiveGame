@@ -90,25 +90,36 @@ public class SaveGameManager : MonoBehaviour
     {
         currentSlot = slot;
         string path = GetSavePath(slot);
-        if (!File.Exists(path)) return;
+        if (!File.Exists(path))
+        {
+            Debug.LogError($"Không tìm thấy file save slot {slot}");
+            return;
+        }
 
-        SaveData data = JsonUtility.FromJson<SaveData>(
-            File.ReadAllText(path));
+        string json = File.ReadAllText(path);
+        SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        // 🔥 CHỈ LƯU TẠM
+        // 🔥 BƯỚC 1: NẠP DỮ LIỆU VÀO BỘ NHỚ NGAY LẬP TỨC (Trước khi chuyển cảnh)
+
+        // A. Nạp vật chứng
         vatChungDaNhat.Clear();
-        foreach (int id in data.danhSachVatChung)
-            vatChungDaNhat.Add(id);
+        foreach (int id in data.danhSachVatChung) vatChungDaNhat.Add(id);
 
+        // B. Nạp sự kiện (Đây là cái bạn đang bị lỗi)
         suKienDaXong.Clear();
         if (data.suKienDaHoanThanh != null)
         {
             foreach (string id in data.suKienDaHoanThanh)
+            {
                 suKienDaXong.Add(id);
+                // In ra để kiểm tra xem máy có đọc được không
+                Debug.Log($"[LOAD] Đã khôi phục sự kiện: {id}");
+            }
         }
 
         daKichHoatHienVatChung = data.daHienVatChung;
 
+        // 🔥 BƯỚC 2: SAU KHI CÓ DỮ LIỆU RỒI MỚI CHUYỂN CẢNH
         StartCoroutine(LoadSceneAndRestore(data));
     }
 
@@ -142,40 +153,43 @@ public class SaveGameManager : MonoBehaviour
         while (!load.isDone)
             yield return new WaitForEndOfFrame();
 
+        suKienDaXong.Clear(); // Xóa sạch dữ liệu cũ
+        if (data.suKienDaHoanThanh != null)
+        {
+            foreach (string id in data.suKienDaHoanThanh)
+            {
+                suKienDaXong.Add(id);
+                Debug.Log($"[LOAD] Đã khôi phục sự kiện: {id}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[LOAD] Danh sách sự kiện trong file save bị Rỗng!");
+        }
+
         // Restore Player
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if (player != null && !data.isNewChapterStart)
         {
-            if (data.isNewChapterStart)
+            if (data.playerX != 0 || data.playerY != 0) // Chỉ restore nếu có tọa độ hợp lệ
             {
-                Debug.Log("Load màn mới -> Giữ nguyên vị trí Spawn mặc định");
-                SaveGame(currentSlot);
-            }
-            else
-            {
-                player.transform.position = new Vector3(
-                    data.playerX,
-                    data.playerY,
-                    player.transform.position.z
-                );
+                player.transform.position = new Vector3(data.playerX, data.playerY, player.transform.position.z);
             }
         }
+
+        // Cập nhật Chapter cho Pause Menu
         PauseMenuController pause = FindFirstObjectByType<PauseMenuController>();
-        if (pause != null)
+        if (pause != null) pause.currentChapter = data.chapter;
+
+        // Restore Inventory UI
+        if (InventoryManager.Instance != null)
         {
-            pause.currentChapter = data.chapter;
+            InventoryManager.Instance.RestoreInventoryFromSave(data.danhSachVatChung);
         }
 
-        // 🔥 RESTORE INVENTORY Ở ĐÂY (CHẮC CHẮN)
-        if (InventoryManager.Instance != null && data.danhSachVatChung != null)
-        {
-            InventoryManager.Instance.RestoreInventoryFromSave(
-                data.danhSachVatChung
-            );
-        }
-
-        Debug.Log("Load xong – đã restore Inventory & chờ MindPalace");
+        Debug.Log("Load Game Hoàn Tất!");
     }
+
 
 
     // ================= DELETE =================

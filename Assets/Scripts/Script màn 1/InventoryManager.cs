@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI; 
 using TMPro;
+using System;
 
 // --- 1. ĐỊNH NGHĨA DỮ LIỆU ---
 
@@ -157,9 +158,38 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public int GetIDByName(string name)
+    {
+        VatChungData data = databaseVatChung.Find(x => x.ten == name);
+        if (data != null) return data.id;
+        return -1;
+    }
 
-    // --- 3. CÁC HÀM INVENTORY (Giữ nguyên) ---
-    public void AddItem(string itemName, Sprite itemIcon, string itemDesc)
+    public void AddItemByNameWithDatabaseCheck(string name, Sprite icon, string desc)
+    {
+        // 1. Tìm xem item này có trong Database không
+        int id = GetIDByName(name);
+
+        // 2. Thêm vào túi đồ hiển thị
+        AddItem(name, icon, desc);
+
+        // 3. Nếu có ID (tức là item quan trọng), tự động thêm vào danh sách Save
+        if (id != -1)
+        {
+            if (SaveGameManager.Instance != null && !SaveGameManager.Instance.vatChungDaNhat.Contains(id))
+            {
+                SaveGameManager.Instance.vatChungDaNhat.Add(id);
+                Debug.Log($"Auto-Add vào Save: {name} (ID: {id})");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Cảnh báo: '{name}' chưa có trong DatabaseVatChung! NPC sẽ không nhận diện được.");
+        }
+    }
+
+// --- 3. CÁC HÀM INVENTORY (Giữ nguyên) ---
+public void AddItem(string itemName, Sprite itemIcon, string itemDesc)
     {
         collectedItems.Add(new CollectedItemData(itemName, itemIcon, itemDesc));
     }
@@ -434,5 +464,10 @@ public class InventoryManager : MonoBehaviour
                 SaveGameManager.Instance.vatChungDaNhat.Remove(id);
             }
         }
+    }
+
+    internal void ShowDialogue(string v1, string v2)
+    {
+        throw new NotImplementedException();
     }
 }
