@@ -1695,16 +1695,30 @@ MonoBehaviour:
   cutsceneID: "Ph\xF2ng Ng\u1ECDc Khu\xEA"
   sfxAudioSource: {fileID: 0}
   tiengGioCua: {fileID: 0}
-  tuBaObject: {fileID: 0}
+  panelKetThucChapter: {fileID: 0}
+  nhanVatChinh: {fileID: 0}
+  panelHoanThanhChapter: {fileID: 0}
+  flashbackPanel: {fileID: 0}
+  flashbackImage: {fileID: 0}
+  flashbackText: {fileID: 0}
+  flashbackNextButton: {fileID: 0}
   fadePanel: {fileID: 0}
   timeText: {fileID: 0}
+  panelChuyenCanh: {fileID: 0}
+  manCheTuBa: {fileID: 0}
   choiceContainer: {fileID: 0}
   choiceButtonPrefab: {fileID: 0}
   quan: {fileID: 413186693}
   linh: {fileID: 0}
-  tocDoDiChuyen: 15
+  tocDoDiChuyen: 6
   ngocKhueNgoi: {fileID: 1808485284}
   ngocKhueDung: {fileID: 413186693}
+  tuBaObject: {fileID: 0}
+  tuBaNgatXiu: {fileID: 0}
+  nguoi1_Dung: {fileID: 0}
+  nguoi1_Nam: {fileID: 0}
+  nguoi2_Dung: {fileID: 0}
+  nguoi2_Nam: {fileID: 0}
   viTriDungQuan: {fileID: 0}
   viTriDungLinh: {fileID: 0}
   loiRaQuan: {fileID: 1782658603}
@@ -1719,9 +1733,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "L\xE0m sao c\xF4 t\u01B0\u1EDDng t\u1EADn nh\u01B0 th\u1EBF? Ch\u1EB3ng
@@ -1729,9 +1750,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 0
     npcID: NgocKhue
     noiDung: "C\xF3 th\u1EC3 coi t\xF4i l\xE0 ng\u01B0\u1EDDi c\xF3 'giao t\xECnh'
@@ -1741,9 +1769,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "L\xFD H\xE0o... t\xEAn c\u1EA9u quan! H\u1EAFn d\xE1m d\xF9ng gi\u1EA5y
@@ -1753,18 +1788,32 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 0
     npcID: NgocKhue
     noiDung: "Gi\u1EA3 hay th\u1EADt, c\u1EADu t\u1EF1 tra s\u1EBD r\xF5. "
     anhCamXuc: {fileID: -4079534012856668657, guid: 2fd2ebd3a9582bd40a7d92d1649874e3, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "Ta bi\u1EBFt h\u1EAFn ch\xEDnh l\xE0 k\u1EBB n\u1EA5p \u0111\u1EB1ng
@@ -1774,9 +1823,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 0
     npcID: NgocKhue
     noiDung: "(R\xFAt ra m\u1ED9t cu\u1ED1n s\u1ED5 d\xE0y) \"T\u1EA5t c\u1EA3 t\u1ED9i
@@ -1785,9 +1841,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 1952134013425826388, guid: b8250af6ec539574191264cd4557180f, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "Nh\u01B0ng sao? \u0110\u01B0a n\xF3 cho ta! Ta s\u1EBD v\u1EA1ch tr\u1EA7n
@@ -1795,9 +1858,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 0
     npcID: NgocKhue
     noiDung: "Ta ch\u1EC9 n\u1EAFm gi\u1EEF b\u1EA3n sao th\xF4i. B\u1EA3n g\u1ED1c
@@ -1807,9 +1877,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "T\xFA B\xE0? M\u1EE5 gi\xE0 x\u1EA3o quy\u1EC7t \u0111\xF3 sao? Ta
@@ -1817,9 +1894,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: -3569619843996905790, guid: e2dce61840e476246934b3af6928ef86, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 0
     npcID: NgocKhue
     noiDung: "\u0110\u1EEBng n\xF3ng v\u1ED9i. M\u1EE5 ta c\xF3 l\xEDnh canh. H\xE3y
@@ -1828,18 +1912,32 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 0
     npcID: NgocKhue
     noiDung: "Theo ta qua \u0111\xE2y"
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   loiTuThoaiKetThuc: []
   danhSachVatChung: []
   thongBaoPanel: {fileID: 0}
@@ -4807,6 +4905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   offset: {x: 15, y: 15, z: 0}
+  cheDoVuaDiVuaThoai: 0
   danhSachNhanVat:
   - id: TuBa
     tenHienThi: "T\xFA B\xE0"

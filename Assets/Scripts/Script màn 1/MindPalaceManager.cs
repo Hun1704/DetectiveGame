@@ -35,8 +35,19 @@ public class MindPalaceManager : MonoBehaviour
         [TextArea] public string cauThoaiKhiDung;
     }
 
+    [System.Serializable]
+    public class DuLieuAo
+    {
+        [Tooltip("ID này phải khớp với ID của Lời Khai Quan bên phải để nối dây đúng")]
+        public int id;
+        [TextArea] public string noiDungHienThi;
+    }
+
     [Header("Dữ liệu")]
     public List<LoiKhaiQuan> loiKhaiCuaQuan;
+
+    [Header("Dữ liệu Ảo (Có sẵn, không cần nhặt)")]
+    public List<DuLieuAo> duLieuAoMacDinh;
 
     private Dictionary<int, string> vatChungDaNhat = new Dictionary<int, string>();
 
@@ -90,6 +101,21 @@ public class MindPalaceManager : MonoBehaviour
             RestoreVatChung(listId);
 
             Debug.Log("MindPalace: Đã restore từ SaveGameManager (An toàn)");
+        }
+        NapDuLieuAo();
+    }
+
+    void NapDuLieuAo()
+    {
+        if (duLieuAoMacDinh == null) return;
+
+        foreach (var item in duLieuAoMacDinh)
+        {
+            // Chỉ thêm nếu ID này chưa tồn tại trong danh sách (để tránh trùng lặp với save game)
+            if (!vatChungDaNhat.ContainsKey(item.id))
+            {
+                vatChungDaNhat.Add(item.id, item.noiDungHienThi);
+            }
         }
     }
     private void Update()
@@ -188,6 +214,7 @@ public class MindPalaceManager : MonoBehaviour
 
             vatChungDaNhat[id] = noiDungHienThi;
         }
+        NapDuLieuAo();
 
         if (vatChungDaNhat.Count >= tongSoVatChungCanTim)
         {
@@ -207,6 +234,9 @@ public class MindPalaceManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         mindPalacePanel.gameObject.SetActive(true);
+
+        HienThiThongTin();
+
         float t = 0;
         while (t < 1)
         {
@@ -215,7 +245,6 @@ public class MindPalaceManager : MonoBehaviour
             yield return null;
         }
         mindPalacePanel.blocksRaycasts = true;
-        HienThiThongTin();
     }
 
     void HienThiThongTin()

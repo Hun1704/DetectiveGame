@@ -47,9 +47,12 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance; 
 
-    public Vector3 offset = new Vector3(15, 15, 0); 
+    public Vector3 offset = new Vector3(15, 15, 0);
 
     // --- 2. KHAI BÁO BIẾN ---
+    [Header("--- CẤU HÌNH ĐẶC BIỆT ---")]
+    // 🔥 [MỚI] Biến này = true thì đang thoại vẫn đi được
+    public bool cheDoVuaDiVuaThoai = false;
 
     [Header("=== DỮ LIỆU NHÂN VẬT (QUAN TRỌNG) ===")]
     // Bạn sẽ bấm dấu + ở đây để thêm Quan, Bà Hàng Xóm, v.v...
@@ -199,6 +202,18 @@ public void AddItem(string itemName, Sprite itemIcon, string itemDesc)
         AddItem(itemName, itemIcon, "Vật phẩm này không có mô tả.");
     }
 
+    public bool CheckItemExist(int itemID)
+    {
+        // 1. Tìm tên item trong database gốc dựa vào ID
+        VatChungData data = databaseVatChung.Find(x => x.id == itemID);
+
+        if (data != null)
+        {
+            // 2. Kiểm tra xem trong túi đồ hiện tại (collectedItems) có tên đó không
+            return collectedItems.Exists(x => x.name == data.ten);
+        }
+        return false;
+    }
     public void AddVatChungByID(int id)
     {
         VatChungData data = databaseVatChung.Find(x => x.id == id);
@@ -465,9 +480,28 @@ public void AddItem(string itemName, Sprite itemIcon, string itemDesc)
             }
         }
     }
-
-    internal void ShowDialogue(string v1, string v2)
+    // --- COPY ĐÈ VÀO HÀM BỊ LỖI ---
+    public void ShowDialogue(string titleName, string content)
     {
-        throw new NotImplementedException();
+        // 1. Tắt các bảng cũ
+        AnHetBangHoiThoai();
+        dangHoiThoai = true;
+        dangLaNPCNoi = true; // Dùng bảng hội thoại của NPC để hiện tên tùy ý
+
+        // 2. Bật bảng NPC
+        if (npcDialogueGroup != null)
+        {
+            npcDialogueGroup.SetActive(true);
+
+            // Hiện tên người nói (VD: "Nhân vật chính")
+            if (npcNameText != null) npcNameText.text = titleName;
+
+            // Tạm thời ẩn ảnh đại diện đi vì đây là lời thoại tự do
+            if (npcPortraitImage != null) npcPortraitImage.gameObject.SetActive(false);
+        }
+
+        // 3. Chạy chữ
+        if (npcDialogueText != null)
+            BatDauChayChu(npcDialogueText, content, -1f);
     }
 }

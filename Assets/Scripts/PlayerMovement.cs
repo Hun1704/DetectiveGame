@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // --- ĐOẠN CODE QUAN TRỌNG ĐỂ DỪNG NHÂN VẬT ---
         // Kiểm tra xem InventoryManager có tồn tại và biến dangHoiThoai có đang bật không
-        if (InventoryManager.Instance != null && InventoryManager.Instance.dangHoiThoai)
+        if (InventoryManager.Instance.dangHoiThoai && !InventoryManager.Instance.cheDoVuaDiVuaThoai)
         {
             // 1. Reset vector di chuyển về 0 để FixedUpdate không đẩy nhân vật đi nữa
             movement = Vector2.zero;

@@ -27,8 +27,20 @@ EditorBuildSettings:
     path: "Assets/Scenes/M\xE0n3.unity"
     guid: e325b515f7c4cbf4ea1316fb40a65803
   - enabled: 1
+    path: "Assets/Scenes/M\xE0n 3-Qu\xE1 Kh\u1EE9.unity"
+    guid: af384c27d8c3c3f489419f68e8977c11
+  - enabled: 1
+    path: "Assets/Scenes/M\xE0n 3- qu\xE1 kh\u1EE9 ngo\xE0i tr\u1EDDi.unity"
+    guid: 5c43cd32a280df141ada21b5c7614624
+  - enabled: 1
     path: "Assets/Scenes/M\xE0n4.unity"
     guid: 1f01db16cd465d040815115e7400a4df
+  - enabled: 1
+    path: "Assets/Scenes/M\xE0n 4- trong t\xF9.unity"
+    guid: 197cb9387baa2754c925de64dc17a392
+  - enabled: 1
+    path: Assets/Scenes/CreditScene.unity
+    guid: c9fc952f5124fbe4f85d99a20911d861
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

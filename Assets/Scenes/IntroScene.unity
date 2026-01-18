@@ -698,7 +698,8 @@ MonoBehaviour:
   tocDoGoChu: 0.05
   iconTiepTuc: {fileID: 0}
   danhSachLoiThoai:
-  - asdasdasd
+  - "M\u01B0a to qu\xE1, cha m\u1EB9 \u0111ang ch\u1EDD ta \u1EDF nh\xE0\nCh\u1EC9
+    t\u1EA1i c\xF4ng \u0111\u01B0\u1EDDng nhi\u1EC1u vi\u1EC7c, ph\u1EA3i nhanh l\xEAn. "
   tenSceneTiepTheo: "M\xE0n1"
 --- !u!328 &2121690877
 VideoPlayer:

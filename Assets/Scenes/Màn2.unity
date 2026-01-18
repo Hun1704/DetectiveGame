@@ -620,6 +620,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bao Thanh Long
       objectReference: {fileID: 0}
+    - target: {fileID: 5643446783101667342, guid: b6e1b2afbd2a6b64a97d0666a0339183, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8820922296863929117, guid: b6e1b2afbd2a6b64a97d0666a0339183, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.1
@@ -1020,7 +1024,7 @@ Transform:
   m_GameObject: {fileID: 395345906}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.64, y: -0.23, z: -10}
+  m_LocalPosition: {x: -1.71, y: -0.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1218,6 +1222,198 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 136167562812833292, guid: 0c9b3040e02d34b4f868c5ca80a565fa, type: 3}
   m_PrefabInstance: {fileID: 1846326083}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &698606652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 698606656}
+  - component: {fileID: 698606655}
+  - component: {fileID: 698606654}
+  - component: {fileID: 698606653}
+  m_Layer: 0
+  m_Name: MusicTriggerZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &698606653
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698606652}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &698606654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698606652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a6d3ad39d3caf4c94de08c9c48d0c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicZoneTrigger
+  musicAudioSource: {fileID: 698606653}
+  nhacIntro: {fileID: 8300000, guid: 6d839d5bcf13783478d7480188980f11, type: 3}
+  nhacLoop: {fileID: 0}
+--- !u!61 &698606655
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698606652}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 2.2131739, y: -4.6221666}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.8775749, y: 1.6133671}
+  m_EdgeRadius: 0
+--- !u!4 &698606656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698606652}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.21, y: 0.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &739105313 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5733060768724423850, guid: 38f09b1adfce427498ebde430342d1a0, type: 3}
@@ -2654,9 +2850,17 @@ MonoBehaviour:
   cutsceneID: "M\xE0n2"
   sfxAudioSource: {fileID: 0}
   tiengGioCua: {fileID: 0}
-  tuBaObject: {fileID: 0}
+  panelKetThucChapter: {fileID: 0}
+  nhanVatChinh: {fileID: 0}
+  panelHoanThanhChapter: {fileID: 0}
+  flashbackPanel: {fileID: 0}
+  flashbackImage: {fileID: 0}
+  flashbackText: {fileID: 0}
+  flashbackNextButton: {fileID: 0}
   fadePanel: {fileID: 0}
   timeText: {fileID: 0}
+  panelChuyenCanh: {fileID: 0}
+  manCheTuBa: {fileID: 0}
   choiceContainer: {fileID: 0}
   choiceButtonPrefab: {fileID: 8012488246747917166, guid: c9ae964d643169645a4e1ae579b97f33, type: 3}
   quan: {fileID: 0}
@@ -2664,6 +2868,12 @@ MonoBehaviour:
   tocDoDiChuyen: 0
   ngocKhueNgoi: {fileID: 0}
   ngocKhueDung: {fileID: 0}
+  tuBaObject: {fileID: 0}
+  tuBaNgatXiu: {fileID: 0}
+  nguoi1_Dung: {fileID: 0}
+  nguoi1_Nam: {fileID: 0}
+  nguoi2_Dung: {fileID: 0}
+  nguoi2_Nam: {fileID: 0}
   viTriDungQuan: {fileID: 0}
   viTriDungLinh: {fileID: 0}
   loiRaQuan: {fileID: 0}
@@ -2678,9 +2888,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: -2750568329095551366, guid: ef1a38c7795ae3c489512a354a2724cb, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "Hi\u1EC7n t\u1EA1i trong ng\u01B0\u1EDDi ta ch\u1EC9 c\xF3 duy nh\u1EA5t
@@ -2688,9 +2905,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 4
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "H\u1EEB, m\u1EE5 gi\xE0 l\xF3a m\u1EAFt. B\xE0 nh\xECn b\u1ED9 d\u1EA1ng
@@ -2698,9 +2922,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 0
     npcID: TuBa
     noiDung: "Ch\xE0... \u0110\u1ED3 t\u1ED1t, \u0111\u1ED3 t\u1ED1t! M\u1EDDi kh\xE1ch
@@ -2708,9 +2939,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: -6400054517518062863, guid: 396d9906735bb224482bc4aa811d0282, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "B\u1EDBt l\u1EDDi \u0111i. Ta h\u1ECFi b\xE0, t\xEAn quan tham L\xFD
@@ -2718,9 +2956,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 0
     npcID: TuBa
     noiDung: "Quan L\xFD H\xE0o \u1EA5y \xE0? Ng\xE0i \u1EA5y l\xE0 kh\xE1ch VIP...
@@ -2729,9 +2974,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 2311720398008586407, guid: 300434e3a19017e4eab0d45294420e1a, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 0
     npcID: NgocKhue
     noiDung: "B\xE0 Ch\u1EE7... \u0110\u1EEBng l\xE0m kh\xF3 ng\xE0i \u1EA5y. \u0110\u1EC3
@@ -2740,9 +2992,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 4008839630249481237, guid: f59577e8c90ec2a45b1fa15c1157523b, type: 3}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   - laNhanVatChinh: 1
     npcID: 
     noiDung: "Ng\u1ECDc Khu\xEA? N\xE0ng ta v\u1EABn \u1EDF \u0111\xE2y sao? Ch\u1EAFc
@@ -2751,9 +3010,16 @@ MonoBehaviour:
     anhCamXuc: {fileID: 0}
     amThanhKem: {fileID: 0}
     cacLuaChon: []
+    kichHoatTuBaXuatHien: 0
+    kichHoatTuBaNgatXiu: 0
+    kichHoatNgatXiu_Lan1: 0
+    kichHoatNgatXiu_Lan2: 0
+    kichHoatHoiTuong: 0
+    danhSachHoiTuong: []
     idVatPhamYeuCau: 0
     cauThoaiSauKhiNhan: 
-    kichHoatTuBaXuatHien: 0
+    chuyenCanhSauCauNay: 0
+    tenSceneChuyenToi: 
   loiTuThoaiKetThuc: []
   danhSachVatChung: []
   thongBaoPanel: {fileID: 137496286}
@@ -4189,6 +4455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   offset: {x: 15, y: 15, z: 0}
+  cheDoVuaDiVuaThoai: 0
   danhSachNhanVat:
   - id: TuBa
     tenHienThi: "T\xFA B\xE0"
@@ -4958,3 +5225,4 @@ SceneRoots:
   - {fileID: 2021496264}
   - {fileID: 838626186}
   - {fileID: 238275902}
+  - {fileID: 698606656}
